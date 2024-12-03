@@ -1,5 +1,8 @@
 # ROS Serial Arduino library
 
+## WARNING!!!
+This repository has been downgraded to use ROS Indigo. I would advise using a newer version of ROS or ROS2's Micro ROS if at all possible.
+
 ## Purpose
 
 Installing ROS Serial library into and Arduino IDE can be an involved task. See instructions http://wiki.ros.org/rosserial. If you don't already have ROS installed on your workstation it's difficult to build due to the Catkin workspace requirement. This repo packages the library for the Arduino IDE and PlatformIO in an expected format.
