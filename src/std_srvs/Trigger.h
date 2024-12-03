@@ -8,10 +8,8 @@
 namespace std_srvs
 {
 
-static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
+static const char TRIGGER[] = "std_srvs/Trigger";
 
-    static const char std_srvs_TriggerRequest_type[] PROGMEM= "std_srvs/TriggerRequest";
-    static const char std_srvs_TriggerRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class TriggerRequest : public ros::Msg
   {
     public:
@@ -20,32 +18,28 @@ static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)TRIGGER);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_srvs_TriggerRequest_md5);return md5_msg; };
+    const char * getType(){ return TRIGGER; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char std_srvs_TriggerResponse_type[] PROGMEM= "std_srvs/TriggerResponse";
-    static const char std_srvs_TriggerResponse_md5[] PROGMEM= "937c9679a518e3a18d831e57125ea522";
   class TriggerResponse : public ros::Msg
   {
     public:
-      typedef bool _success_type;
-      _success_type success;
-      typedef const char* _message_type;
-      _message_type message;
+      bool success;
+      const char* message;
 
     TriggerResponse():
       success(0),
@@ -53,7 +47,7 @@ static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -64,14 +58,14 @@ static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
       *(outbuffer + offset + 0) = (u_success.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->success);
       uint32_t length_message = strlen(this->message);
-      varToArr(outbuffer + offset, length_message);
+      memcpy(outbuffer + offset, &length_message, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->message, length_message);
       offset += length_message;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -83,7 +77,7 @@ static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
       this->success = u_success.real;
       offset += sizeof(this->success);
       uint32_t length_message;
-      arrToVar(length_message, (inbuffer + offset));
+      memcpy(&length_message, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_message; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -94,8 +88,8 @@ static const char TRIGGER[] PROGMEM= "std_srvs/Trigger";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)TRIGGER);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_srvs_TriggerResponse_md5);return md5_msg; };
+    const char * getType(){ return TRIGGER; };
+    const char * getMD5(){ return "937c9679a518e3a18d831e57125ea522"; };
 
   };
 

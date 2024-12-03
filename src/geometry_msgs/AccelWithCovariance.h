@@ -10,13 +10,10 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_AccelWithCovariance_type[] PROGMEM= "geometry_msgs/AccelWithCovariance";
-    static const char geometry_msgs_AccelWithCovariance_md5[] PROGMEM= "ad5a718d699c6be72a02b8d6a139f334";
   class AccelWithCovariance : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Accel _accel_type;
-      _accel_type accel;
+      geometry_msgs::Accel accel;
       float covariance[36];
 
     AccelWithCovariance():
@@ -25,28 +22,28 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->accel.serialize(outbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->covariance[i]);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->accel.deserialize(inbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->covariance[i]));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_AccelWithCovariance_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_AccelWithCovariance_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/AccelWithCovariance"; };
+    const char * getMD5(){ return "ad5a718d699c6be72a02b8d6a139f334"; };
 
   };
 

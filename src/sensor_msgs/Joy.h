@@ -10,39 +10,33 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_Joy_type[] PROGMEM= "sensor_msgs/Joy";
-    static const char sensor_msgs_Joy_md5[] PROGMEM= "5a9ea5f83505693b71e785041e67a8bb";
   class Joy : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      uint32_t axes_length;
-      typedef float _axes_type;
-      _axes_type st_axes;
-      _axes_type * axes;
-      uint32_t buttons_length;
-      typedef int32_t _buttons_type;
-      _buttons_type st_buttons;
-      _buttons_type * buttons;
+      std_msgs::Header header;
+      uint8_t axes_length;
+      float st_axes;
+      float * axes;
+      uint8_t buttons_length;
+      int32_t st_buttons;
+      int32_t * buttons;
 
     Joy():
       header(),
-      axes_length(0), st_axes(), axes(nullptr),
-      buttons_length(0), st_buttons(), buttons(nullptr)
+      axes_length(0), axes(NULL),
+      buttons_length(0), buttons(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
-      *(outbuffer + offset + 0) = (this->axes_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->axes_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->axes_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->axes_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->axes_length);
-      for( uint32_t i = 0; i < axes_length; i++){
+      *(outbuffer + offset++) = axes_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < axes_length; i++){
       union {
         float real;
         uint32_t base;
@@ -54,12 +48,11 @@ namespace sensor_msgs
       *(outbuffer + offset + 3) = (u_axesi.base >> (8 * 3)) & 0xFF;
       offset += sizeof(this->axes[i]);
       }
-      *(outbuffer + offset + 0) = (this->buttons_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->buttons_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->buttons_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->buttons_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->buttons_length);
-      for( uint32_t i = 0; i < buttons_length; i++){
+      *(outbuffer + offset++) = buttons_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < buttons_length; i++){
       union {
         int32_t real;
         uint32_t base;
@@ -74,19 +67,16 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
-      uint32_t axes_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      axes_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      axes_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      axes_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->axes_length);
+      uint8_t axes_lengthT = *(inbuffer + offset++);
       if(axes_lengthT > axes_length)
         this->axes = (float*)realloc(this->axes, axes_lengthT * sizeof(float));
+      offset += 3;
       axes_length = axes_lengthT;
-      for( uint32_t i = 0; i < axes_length; i++){
+      for( uint8_t i = 0; i < axes_length; i++){
       union {
         float real;
         uint32_t base;
@@ -100,15 +90,12 @@ namespace sensor_msgs
       offset += sizeof(this->st_axes);
         memcpy( &(this->axes[i]), &(this->st_axes), sizeof(float));
       }
-      uint32_t buttons_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      buttons_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      buttons_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      buttons_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->buttons_length);
+      uint8_t buttons_lengthT = *(inbuffer + offset++);
       if(buttons_lengthT > buttons_length)
         this->buttons = (int32_t*)realloc(this->buttons, buttons_lengthT * sizeof(int32_t));
+      offset += 3;
       buttons_length = buttons_lengthT;
-      for( uint32_t i = 0; i < buttons_length; i++){
+      for( uint8_t i = 0; i < buttons_length; i++){
       union {
         int32_t real;
         uint32_t base;
@@ -125,8 +112,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_Joy_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_Joy_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/Joy"; };
+    const char * getMD5(){ return "5a9ea5f83505693b71e785041e67a8bb"; };
 
   };
 

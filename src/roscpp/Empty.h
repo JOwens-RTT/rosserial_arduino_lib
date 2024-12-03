@@ -8,10 +8,8 @@
 namespace roscpp
 {
 
-static const char EMPTY[] PROGMEM= "roscpp/Empty";
+static const char EMPTY[] = "roscpp/Empty";
 
-    static const char roscpp_EmptyRequest_type[] PROGMEM= "roscpp/EmptyRequest";
-    static const char roscpp_EmptyRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class EmptyRequest : public ros::Msg
   {
     public:
@@ -20,25 +18,23 @@ static const char EMPTY[] PROGMEM= "roscpp/Empty";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)EMPTY);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)roscpp_EmptyRequest_md5);return md5_msg; };
+    const char * getType(){ return EMPTY; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char roscpp_EmptyResponse_type[] PROGMEM= "roscpp/EmptyResponse";
-    static const char roscpp_EmptyResponse_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class EmptyResponse : public ros::Msg
   {
     public:
@@ -47,20 +43,20 @@ static const char EMPTY[] PROGMEM= "roscpp/Empty";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)EMPTY);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)roscpp_EmptyResponse_md5);return md5_msg; };
+    const char * getType(){ return EMPTY; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 

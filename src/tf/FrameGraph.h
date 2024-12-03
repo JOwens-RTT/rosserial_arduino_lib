@@ -8,10 +8,8 @@
 namespace tf
 {
 
-static const char FRAMEGRAPH[] PROGMEM= "tf/FrameGraph";
+static const char FRAMEGRAPH[] = "tf/FrameGraph";
 
-    static const char tf_FrameGraphRequest_type[] PROGMEM= "tf/FrameGraphRequest";
-    static const char tf_FrameGraphRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class FrameGraphRequest : public ros::Msg
   {
     public:
@@ -20,52 +18,49 @@ static const char FRAMEGRAPH[] PROGMEM= "tf/FrameGraph";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)FRAMEGRAPH);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf_FrameGraphRequest_md5);return md5_msg; };
+    const char * getType(){ return FRAMEGRAPH; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char tf_FrameGraphResponse_type[] PROGMEM= "tf/FrameGraphResponse";
-    static const char tf_FrameGraphResponse_md5[] PROGMEM= "c4af9ac907e58e906eb0b6e3c58478c0";
   class FrameGraphResponse : public ros::Msg
   {
     public:
-      typedef const char* _dot_graph_type;
-      _dot_graph_type dot_graph;
+      const char* dot_graph;
 
     FrameGraphResponse():
       dot_graph("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_dot_graph = strlen(this->dot_graph);
-      varToArr(outbuffer + offset, length_dot_graph);
+      memcpy(outbuffer + offset, &length_dot_graph, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->dot_graph, length_dot_graph);
       offset += length_dot_graph;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_dot_graph;
-      arrToVar(length_dot_graph, (inbuffer + offset));
+      memcpy(&length_dot_graph, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_dot_graph; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -76,8 +71,8 @@ static const char FRAMEGRAPH[] PROGMEM= "tf/FrameGraph";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)FRAMEGRAPH);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf_FrameGraphResponse_md5);return md5_msg; };
+    const char * getType(){ return FRAMEGRAPH; };
+    const char * getMD5(){ return "c4af9ac907e58e906eb0b6e3c58478c0"; };
 
   };
 

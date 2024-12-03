@@ -11,15 +11,11 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Pose_type[] PROGMEM= "geometry_msgs/Pose";
-    static const char geometry_msgs_Pose_md5[] PROGMEM= "e45d45a5a1ce597b249e23fb30fc871f";
   class Pose : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Point _position_type;
-      _position_type position;
-      typedef geometry_msgs::Quaternion _orientation_type;
-      _orientation_type orientation;
+      geometry_msgs::Point position;
+      geometry_msgs::Quaternion orientation;
 
     Pose():
       position(),
@@ -27,7 +23,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->position.serialize(outbuffer + offset);
@@ -35,7 +31,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->position.deserialize(inbuffer + offset);
@@ -43,8 +39,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Pose_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Pose_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Pose"; };
+    const char * getMD5(){ return "e45d45a5a1ce597b249e23fb30fc871f"; };
 
   };
 

@@ -9,8 +9,6 @@
 namespace bond
 {
 
-    static const char bond_Constants_type[] PROGMEM= "bond/Constants";
-    static const char bond_Constants_md5[] PROGMEM= "6fc594dc1d7bd7919077042712f8c8b0";
   class Constants : public ros::Msg
   {
     public:
@@ -25,20 +23,20 @@ namespace bond
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)bond_Constants_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)bond_Constants_md5);return md5_msg; };
+    const char * getType(){ return "bond/Constants"; };
+    const char * getMD5(){ return "6fc594dc1d7bd7919077042712f8c8b0"; };
 
   };
 

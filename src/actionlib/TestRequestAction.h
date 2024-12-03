@@ -12,17 +12,12 @@
 namespace actionlib
 {
 
-    static const char actionlib_TestRequestAction_type[] PROGMEM= "actionlib/TestRequestAction";
-    static const char actionlib_TestRequestAction_md5[] PROGMEM= "dc44b1f4045dbf0d1db54423b3b86b30";
   class TestRequestAction : public ros::Msg
   {
     public:
-      typedef actionlib::TestRequestActionGoal _action_goal_type;
-      _action_goal_type action_goal;
-      typedef actionlib::TestRequestActionResult _action_result_type;
-      _action_result_type action_result;
-      typedef actionlib::TestRequestActionFeedback _action_feedback_type;
-      _action_feedback_type action_feedback;
+      actionlib::TestRequestActionGoal action_goal;
+      actionlib::TestRequestActionResult action_result;
+      actionlib::TestRequestActionFeedback action_feedback;
 
     TestRequestAction():
       action_goal(),
@@ -31,7 +26,7 @@ namespace actionlib
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->action_goal.serialize(outbuffer + offset);
@@ -40,7 +35,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->action_goal.deserialize(inbuffer + offset);
@@ -49,8 +44,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TestRequestAction_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TestRequestAction_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TestRequestAction"; };
+    const char * getMD5(){ return "dc44b1f4045dbf0d1db54423b3b86b30"; };
 
   };
 

@@ -4,23 +4,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ros/msg.h"
-#include "geometry_msgs/PoseWithCovarianceStamped.h"
 #include "nav_msgs/OccupancyGrid.h"
+#include "geometry_msgs/PoseWithCovarianceStamped.h"
 
 namespace nav_msgs
 {
 
-static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
+static const char SETMAP[] = "nav_msgs/SetMap";
 
-    static const char nav_msgs_SetMapRequest_type[] PROGMEM= "nav_msgs/SetMapRequest";
-    static const char nav_msgs_SetMapRequest_md5[] PROGMEM= "91149a20d7be299b87c340df8cc94fd4";
   class SetMapRequest : public ros::Msg
   {
     public:
-      typedef nav_msgs::OccupancyGrid _map_type;
-      _map_type map;
-      typedef geometry_msgs::PoseWithCovarianceStamped _initial_pose_type;
-      _initial_pose_type initial_pose;
+      nav_msgs::OccupancyGrid map;
+      geometry_msgs::PoseWithCovarianceStamped initial_pose;
 
     SetMapRequest():
       map(),
@@ -28,7 +24,7 @@ static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->map.serialize(outbuffer + offset);
@@ -36,7 +32,7 @@ static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->map.deserialize(inbuffer + offset);
@@ -44,25 +40,22 @@ static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)SETMAP);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nav_msgs_SetMapRequest_md5);return md5_msg; };
+    const char * getType(){ return SETMAP; };
+    const char * getMD5(){ return "91149a20d7be299b87c340df8cc94fd4"; };
 
   };
 
-    static const char nav_msgs_SetMapResponse_type[] PROGMEM= "nav_msgs/SetMapResponse";
-    static const char nav_msgs_SetMapResponse_md5[] PROGMEM= "358e233cde0c8a8bcfea4ce193f8fc15";
   class SetMapResponse : public ros::Msg
   {
     public:
-      typedef bool _success_type;
-      _success_type success;
+      bool success;
 
     SetMapResponse():
       success(0)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -75,7 +68,7 @@ static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -89,8 +82,8 @@ static const char SETMAP[] PROGMEM= "nav_msgs/SetMap";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)SETMAP);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nav_msgs_SetMapResponse_md5);return md5_msg; };
+    const char * getType(){ return SETMAP; };
+    const char * getMD5(){ return "358e233cde0c8a8bcfea4ce193f8fc15"; };
 
   };
 

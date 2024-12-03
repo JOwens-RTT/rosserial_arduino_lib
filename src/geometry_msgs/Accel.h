@@ -10,15 +10,11 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Accel_type[] PROGMEM= "geometry_msgs/Accel";
-    static const char geometry_msgs_Accel_md5[] PROGMEM= "9f195f881246fdfa2798d1d3eebca84a";
   class Accel : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Vector3 _linear_type;
-      _linear_type linear;
-      typedef geometry_msgs::Vector3 _angular_type;
-      _angular_type angular;
+      geometry_msgs::Vector3 linear;
+      geometry_msgs::Vector3 angular;
 
     Accel():
       linear(),
@@ -26,7 +22,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->linear.serialize(outbuffer + offset);
@@ -34,7 +30,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->linear.deserialize(inbuffer + offset);
@@ -42,8 +38,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Accel_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Accel_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Accel"; };
+    const char * getMD5(){ return "9f195f881246fdfa2798d1d3eebca84a"; };
 
   };
 

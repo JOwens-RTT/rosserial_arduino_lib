@@ -10,13 +10,10 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_PoseWithCovariance_type[] PROGMEM= "geometry_msgs/PoseWithCovariance";
-    static const char geometry_msgs_PoseWithCovariance_md5[] PROGMEM= "c23e848cf1b7533a8d7c259073a97e6f";
   class PoseWithCovariance : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Pose _pose_type;
-      _pose_type pose;
+      geometry_msgs::Pose pose;
       float covariance[36];
 
     PoseWithCovariance():
@@ -25,28 +22,28 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->pose.serialize(outbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->covariance[i]);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->pose.deserialize(inbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->covariance[i]));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_PoseWithCovariance_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_PoseWithCovariance_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/PoseWithCovariance"; };
+    const char * getMD5(){ return "c23e848cf1b7533a8d7c259073a97e6f"; };
 
   };
 

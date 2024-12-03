@@ -9,21 +9,14 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_RegionOfInterest_type[] PROGMEM= "sensor_msgs/RegionOfInterest";
-    static const char sensor_msgs_RegionOfInterest_md5[] PROGMEM= "bdb633039d588fcccb441a4d43ccfe09";
   class RegionOfInterest : public ros::Msg
   {
     public:
-      typedef uint32_t _x_offset_type;
-      _x_offset_type x_offset;
-      typedef uint32_t _y_offset_type;
-      _y_offset_type y_offset;
-      typedef uint32_t _height_type;
-      _height_type height;
-      typedef uint32_t _width_type;
-      _width_type width;
-      typedef bool _do_rectify_type;
-      _do_rectify_type do_rectify;
+      uint32_t x_offset;
+      uint32_t y_offset;
+      uint32_t height;
+      uint32_t width;
+      bool do_rectify;
 
     RegionOfInterest():
       x_offset(0),
@@ -34,7 +27,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->x_offset >> (8 * 0)) & 0xFF;
@@ -67,7 +60,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->x_offset =  ((uint32_t) (*(inbuffer + offset)));
@@ -101,8 +94,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_RegionOfInterest_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_RegionOfInterest_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/RegionOfInterest"; };
+    const char * getMD5(){ return "bdb633039d588fcccb441a4d43ccfe09"; };
 
   };
 

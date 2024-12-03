@@ -9,21 +9,14 @@
 namespace dynamic_reconfigure
 {
 
-    static const char dynamic_reconfigure_ParamDescription_type[] PROGMEM= "dynamic_reconfigure/ParamDescription";
-    static const char dynamic_reconfigure_ParamDescription_md5[] PROGMEM= "7434fcb9348c13054e0c3b267c8cb34d";
   class ParamDescription : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef const char* _type_type;
-      _type_type type;
-      typedef uint32_t _level_type;
-      _level_type level;
-      typedef const char* _description_type;
-      _description_type description;
-      typedef const char* _edit_method_type;
-      _edit_method_type edit_method;
+      const char* name;
+      const char* type;
+      uint32_t level;
+      const char* description;
+      const char* edit_method;
 
     ParamDescription():
       name(""),
@@ -34,16 +27,16 @@ namespace dynamic_reconfigure
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
       uint32_t length_type = strlen(this->type);
-      varToArr(outbuffer + offset, length_type);
+      memcpy(outbuffer + offset, &length_type, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->type, length_type);
       offset += length_type;
@@ -53,23 +46,23 @@ namespace dynamic_reconfigure
       *(outbuffer + offset + 3) = (this->level >> (8 * 3)) & 0xFF;
       offset += sizeof(this->level);
       uint32_t length_description = strlen(this->description);
-      varToArr(outbuffer + offset, length_description);
+      memcpy(outbuffer + offset, &length_description, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->description, length_description);
       offset += length_description;
       uint32_t length_edit_method = strlen(this->edit_method);
-      varToArr(outbuffer + offset, length_edit_method);
+      memcpy(outbuffer + offset, &length_edit_method, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->edit_method, length_edit_method);
       offset += length_edit_method;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -78,7 +71,7 @@ namespace dynamic_reconfigure
       this->name = (char *)(inbuffer + offset-1);
       offset += length_name;
       uint32_t length_type;
-      arrToVar(length_type, (inbuffer + offset));
+      memcpy(&length_type, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_type; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -92,7 +85,7 @@ namespace dynamic_reconfigure
       this->level |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->level);
       uint32_t length_description;
-      arrToVar(length_description, (inbuffer + offset));
+      memcpy(&length_description, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_description; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -101,7 +94,7 @@ namespace dynamic_reconfigure
       this->description = (char *)(inbuffer + offset-1);
       offset += length_description;
       uint32_t length_edit_method;
-      arrToVar(length_edit_method, (inbuffer + offset));
+      memcpy(&length_edit_method, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_edit_method; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -112,8 +105,8 @@ namespace dynamic_reconfigure
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)dynamic_reconfigure_ParamDescription_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_ParamDescription_md5);return md5_msg; };
+    const char * getType(){ return "dynamic_reconfigure/ParamDescription"; };
+    const char * getMD5(){ return "7434fcb9348c13054e0c3b267c8cb34d"; };
 
   };
 

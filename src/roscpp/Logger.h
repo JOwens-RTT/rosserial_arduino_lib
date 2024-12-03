@@ -9,15 +9,11 @@
 namespace roscpp
 {
 
-    static const char roscpp_Logger_type[] PROGMEM= "roscpp/Logger";
-    static const char roscpp_Logger_md5[] PROGMEM= "a6069a2ff40db7bd32143dd66e1f408e";
   class Logger : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef const char* _level_type;
-      _level_type level;
+      const char* name;
+      const char* level;
 
     Logger():
       name(""),
@@ -25,27 +21,27 @@ namespace roscpp
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
       uint32_t length_level = strlen(this->level);
-      varToArr(outbuffer + offset, length_level);
+      memcpy(outbuffer + offset, &length_level, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->level, length_level);
       offset += length_level;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -54,7 +50,7 @@ namespace roscpp
       this->name = (char *)(inbuffer + offset-1);
       offset += length_name;
       uint32_t length_level;
-      arrToVar(length_level, (inbuffer + offset));
+      memcpy(&length_level, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_level; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -65,8 +61,8 @@ namespace roscpp
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)roscpp_Logger_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)roscpp_Logger_md5);return md5_msg; };
+    const char * getType(){ return "roscpp/Logger"; };
+    const char * getMD5(){ return "a6069a2ff40db7bd32143dd66e1f408e"; };
 
   };
 

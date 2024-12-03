@@ -11,25 +11,16 @@
 namespace tf2_msgs
 {
 
-    static const char tf2_msgs_LookupTransformGoal_type[] PROGMEM= "tf2_msgs/LookupTransformGoal";
-    static const char tf2_msgs_LookupTransformGoal_md5[] PROGMEM= "35e3720468131d675a18bb6f3e5f22f8";
   class LookupTransformGoal : public ros::Msg
   {
     public:
-      typedef const char* _target_frame_type;
-      _target_frame_type target_frame;
-      typedef const char* _source_frame_type;
-      _source_frame_type source_frame;
-      typedef ros::Time _source_time_type;
-      _source_time_type source_time;
-      typedef ros::Duration _timeout_type;
-      _timeout_type timeout;
-      typedef ros::Time _target_time_type;
-      _target_time_type target_time;
-      typedef const char* _fixed_frame_type;
-      _fixed_frame_type fixed_frame;
-      typedef bool _advanced_type;
-      _advanced_type advanced;
+      const char* target_frame;
+      const char* source_frame;
+      ros::Time source_time;
+      ros::Duration timeout;
+      ros::Time target_time;
+      const char* fixed_frame;
+      bool advanced;
 
     LookupTransformGoal():
       target_frame(""),
@@ -42,16 +33,16 @@ namespace tf2_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_target_frame = strlen(this->target_frame);
-      varToArr(outbuffer + offset, length_target_frame);
+      memcpy(outbuffer + offset, &length_target_frame, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->target_frame, length_target_frame);
       offset += length_target_frame;
       uint32_t length_source_frame = strlen(this->source_frame);
-      varToArr(outbuffer + offset, length_source_frame);
+      memcpy(outbuffer + offset, &length_source_frame, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->source_frame, length_source_frame);
       offset += length_source_frame;
@@ -86,7 +77,7 @@ namespace tf2_msgs
       *(outbuffer + offset + 3) = (this->target_time.nsec >> (8 * 3)) & 0xFF;
       offset += sizeof(this->target_time.nsec);
       uint32_t length_fixed_frame = strlen(this->fixed_frame);
-      varToArr(outbuffer + offset, length_fixed_frame);
+      memcpy(outbuffer + offset, &length_fixed_frame, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->fixed_frame, length_fixed_frame);
       offset += length_fixed_frame;
@@ -100,11 +91,11 @@ namespace tf2_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_target_frame;
-      arrToVar(length_target_frame, (inbuffer + offset));
+      memcpy(&length_target_frame, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_target_frame; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -113,7 +104,7 @@ namespace tf2_msgs
       this->target_frame = (char *)(inbuffer + offset-1);
       offset += length_target_frame;
       uint32_t length_source_frame;
-      arrToVar(length_source_frame, (inbuffer + offset));
+      memcpy(&length_source_frame, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_source_frame; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -152,7 +143,7 @@ namespace tf2_msgs
       this->target_time.nsec |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->target_time.nsec);
       uint32_t length_fixed_frame;
-      arrToVar(length_fixed_frame, (inbuffer + offset));
+      memcpy(&length_fixed_frame, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_fixed_frame; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -171,8 +162,8 @@ namespace tf2_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)tf2_msgs_LookupTransformGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf2_msgs_LookupTransformGoal_md5);return md5_msg; };
+    const char * getType(){ return "tf2_msgs/LookupTransformGoal"; };
+    const char * getMD5(){ return "35e3720468131d675a18bb6f3e5f22f8"; };
 
   };
 

@@ -9,17 +9,12 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_JoyFeedback_type[] PROGMEM= "sensor_msgs/JoyFeedback";
-    static const char sensor_msgs_JoyFeedback_md5[] PROGMEM= "f4dcd73460360d98f36e55ee7f2e46f1";
   class JoyFeedback : public ros::Msg
   {
     public:
-      typedef uint8_t _type_type;
-      _type_type type;
-      typedef uint8_t _id_type;
-      _id_type id;
-      typedef float _intensity_type;
-      _intensity_type intensity;
+      uint8_t type;
+      uint8_t id;
+      float intensity;
       enum { TYPE_LED =  0 };
       enum { TYPE_RUMBLE =  1 };
       enum { TYPE_BUZZER =  2 };
@@ -31,7 +26,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->type >> (8 * 0)) & 0xFF;
@@ -51,7 +46,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->type =  ((uint8_t) (*(inbuffer + offset)));
@@ -72,8 +67,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_JoyFeedback_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_JoyFeedback_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/JoyFeedback"; };
+    const char * getMD5(){ return "f4dcd73460360d98f36e55ee7f2e46f1"; };
 
   };
 

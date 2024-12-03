@@ -10,55 +10,48 @@
 namespace tf
 {
 
-    static const char tf_tfMessage_type[] PROGMEM= "tf/tfMessage";
-    static const char tf_tfMessage_md5[] PROGMEM= "94810edda583a504dfda3829e70d7eec";
   class tfMessage : public ros::Msg
   {
     public:
-      uint32_t transforms_length;
-      typedef geometry_msgs::TransformStamped _transforms_type;
-      _transforms_type st_transforms;
-      _transforms_type * transforms;
+      uint8_t transforms_length;
+      geometry_msgs::TransformStamped st_transforms;
+      geometry_msgs::TransformStamped * transforms;
 
     tfMessage():
-      transforms_length(0), st_transforms(), transforms(nullptr)
+      transforms_length(0), transforms(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      *(outbuffer + offset + 0) = (this->transforms_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->transforms_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->transforms_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->transforms_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->transforms_length);
-      for( uint32_t i = 0; i < transforms_length; i++){
+      *(outbuffer + offset++) = transforms_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < transforms_length; i++){
       offset += this->transforms[i].serialize(outbuffer + offset);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t transforms_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      transforms_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      transforms_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      transforms_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->transforms_length);
+      uint8_t transforms_lengthT = *(inbuffer + offset++);
       if(transforms_lengthT > transforms_length)
         this->transforms = (geometry_msgs::TransformStamped*)realloc(this->transforms, transforms_lengthT * sizeof(geometry_msgs::TransformStamped));
+      offset += 3;
       transforms_length = transforms_lengthT;
-      for( uint32_t i = 0; i < transforms_length; i++){
+      for( uint8_t i = 0; i < transforms_length; i++){
       offset += this->st_transforms.deserialize(inbuffer + offset);
         memcpy( &(this->transforms[i]), &(this->st_transforms), sizeof(geometry_msgs::TransformStamped));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)tf_tfMessage_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf_tfMessage_md5);return md5_msg; };
+    const char * getType(){ return "tf/tfMessage"; };
+    const char * getMD5(){ return "94810edda583a504dfda3829e70d7eec"; };
 
   };
 

@@ -8,37 +8,34 @@
 namespace diagnostic_msgs
 {
 
-static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
+static const char ADDDIAGNOSTICS[] = "diagnostic_msgs/AddDiagnostics";
 
-    static const char diagnostic_msgs_AddDiagnosticsRequest_type[] PROGMEM= "diagnostic_msgs/AddDiagnosticsRequest";
-    static const char diagnostic_msgs_AddDiagnosticsRequest_md5[] PROGMEM= "c26cf6e164288fbc6050d74f838bcdf0";
   class AddDiagnosticsRequest : public ros::Msg
   {
     public:
-      typedef const char* _load_namespace_type;
-      _load_namespace_type load_namespace;
+      const char* load_namespace;
 
     AddDiagnosticsRequest():
       load_namespace("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_load_namespace = strlen(this->load_namespace);
-      varToArr(outbuffer + offset, length_load_namespace);
+      memcpy(outbuffer + offset, &length_load_namespace, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->load_namespace, length_load_namespace);
       offset += length_load_namespace;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_load_namespace;
-      arrToVar(length_load_namespace, (inbuffer + offset));
+      memcpy(&length_load_namespace, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_load_namespace; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -49,20 +46,16 @@ static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)ADDDIAGNOSTICS);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)diagnostic_msgs_AddDiagnosticsRequest_md5);return md5_msg; };
+    const char * getType(){ return ADDDIAGNOSTICS; };
+    const char * getMD5(){ return "c26cf6e164288fbc6050d74f838bcdf0"; };
 
   };
 
-    static const char diagnostic_msgs_AddDiagnosticsResponse_type[] PROGMEM= "diagnostic_msgs/AddDiagnosticsResponse";
-    static const char diagnostic_msgs_AddDiagnosticsResponse_md5[] PROGMEM= "937c9679a518e3a18d831e57125ea522";
   class AddDiagnosticsResponse : public ros::Msg
   {
     public:
-      typedef bool _success_type;
-      _success_type success;
-      typedef const char* _message_type;
-      _message_type message;
+      bool success;
+      const char* message;
 
     AddDiagnosticsResponse():
       success(0),
@@ -70,7 +63,7 @@ static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -81,14 +74,14 @@ static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
       *(outbuffer + offset + 0) = (u_success.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->success);
       uint32_t length_message = strlen(this->message);
-      varToArr(outbuffer + offset, length_message);
+      memcpy(outbuffer + offset, &length_message, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->message, length_message);
       offset += length_message;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -100,7 +93,7 @@ static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
       this->success = u_success.real;
       offset += sizeof(this->success);
       uint32_t length_message;
-      arrToVar(length_message, (inbuffer + offset));
+      memcpy(&length_message, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_message; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -111,8 +104,8 @@ static const char ADDDIAGNOSTICS[] PROGMEM= "diagnostic_msgs/AddDiagnostics";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)ADDDIAGNOSTICS);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)diagnostic_msgs_AddDiagnosticsResponse_md5);return md5_msg; };
+    const char * getType(){ return ADDDIAGNOSTICS; };
+    const char * getMD5(){ return "937c9679a518e3a18d831e57125ea522"; };
 
   };
 

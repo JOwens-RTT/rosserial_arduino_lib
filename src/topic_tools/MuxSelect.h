@@ -8,37 +8,34 @@
 namespace topic_tools
 {
 
-static const char MUXSELECT[] PROGMEM= "topic_tools/MuxSelect";
+static const char MUXSELECT[] = "topic_tools/MuxSelect";
 
-    static const char topic_tools_MuxSelectRequest_type[] PROGMEM= "topic_tools/MuxSelectRequest";
-    static const char topic_tools_MuxSelectRequest_md5[] PROGMEM= "d8f94bae31b356b24d0427f80426d0c3";
   class MuxSelectRequest : public ros::Msg
   {
     public:
-      typedef const char* _topic_type;
-      _topic_type topic;
+      const char* topic;
 
     MuxSelectRequest():
       topic("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_topic = strlen(this->topic);
-      varToArr(outbuffer + offset, length_topic);
+      memcpy(outbuffer + offset, &length_topic, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->topic, length_topic);
       offset += length_topic;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_topic;
-      arrToVar(length_topic, (inbuffer + offset));
+      memcpy(&length_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_topic; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -49,40 +46,37 @@ static const char MUXSELECT[] PROGMEM= "topic_tools/MuxSelect";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)MUXSELECT);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_MuxSelectRequest_md5);return md5_msg; };
+    const char * getType(){ return MUXSELECT; };
+    const char * getMD5(){ return "d8f94bae31b356b24d0427f80426d0c3"; };
 
   };
 
-    static const char topic_tools_MuxSelectResponse_type[] PROGMEM= "topic_tools/MuxSelectResponse";
-    static const char topic_tools_MuxSelectResponse_md5[] PROGMEM= "3db0a473debdbafea387c9e49358c320";
   class MuxSelectResponse : public ros::Msg
   {
     public:
-      typedef const char* _prev_topic_type;
-      _prev_topic_type prev_topic;
+      const char* prev_topic;
 
     MuxSelectResponse():
       prev_topic("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_prev_topic = strlen(this->prev_topic);
-      varToArr(outbuffer + offset, length_prev_topic);
+      memcpy(outbuffer + offset, &length_prev_topic, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->prev_topic, length_prev_topic);
       offset += length_prev_topic;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_prev_topic;
-      arrToVar(length_prev_topic, (inbuffer + offset));
+      memcpy(&length_prev_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_prev_topic; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -93,8 +87,8 @@ static const char MUXSELECT[] PROGMEM= "topic_tools/MuxSelect";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)MUXSELECT);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_MuxSelectResponse_md5);return md5_msg; };
+    const char * getType(){ return MUXSELECT; };
+    const char * getMD5(){ return "3db0a473debdbafea387c9e49358c320"; };
 
   };
 

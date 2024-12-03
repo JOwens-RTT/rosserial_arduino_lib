@@ -10,97 +10,83 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_JointState_type[] PROGMEM= "sensor_msgs/JointState";
-    static const char sensor_msgs_JointState_md5[] PROGMEM= "3066dcd76a6cfaef579bd0f34173e9fd";
   class JointState : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      uint32_t name_length;
-      typedef char* _name_type;
-      _name_type st_name;
-      _name_type * name;
-      uint32_t position_length;
-      typedef float _position_type;
-      _position_type st_position;
-      _position_type * position;
-      uint32_t velocity_length;
-      typedef float _velocity_type;
-      _velocity_type st_velocity;
-      _velocity_type * velocity;
-      uint32_t effort_length;
-      typedef float _effort_type;
-      _effort_type st_effort;
-      _effort_type * effort;
+      std_msgs::Header header;
+      uint8_t name_length;
+      char* st_name;
+      char* * name;
+      uint8_t position_length;
+      float st_position;
+      float * position;
+      uint8_t velocity_length;
+      float st_velocity;
+      float * velocity;
+      uint8_t effort_length;
+      float st_effort;
+      float * effort;
 
     JointState():
       header(),
-      name_length(0), st_name(), name(nullptr),
-      position_length(0), st_position(), position(nullptr),
-      velocity_length(0), st_velocity(), velocity(nullptr),
-      effort_length(0), st_effort(), effort(nullptr)
+      name_length(0), name(NULL),
+      position_length(0), position(NULL),
+      velocity_length(0), velocity(NULL),
+      effort_length(0), effort(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
-      *(outbuffer + offset + 0) = (this->name_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->name_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->name_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->name_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->name_length);
-      for( uint32_t i = 0; i < name_length; i++){
+      *(outbuffer + offset++) = name_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < name_length; i++){
       uint32_t length_namei = strlen(this->name[i]);
-      varToArr(outbuffer + offset, length_namei);
+      memcpy(outbuffer + offset, &length_namei, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name[i], length_namei);
       offset += length_namei;
       }
-      *(outbuffer + offset + 0) = (this->position_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->position_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->position_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->position_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->position_length);
-      for( uint32_t i = 0; i < position_length; i++){
+      *(outbuffer + offset++) = position_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < position_length; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->position[i]);
       }
-      *(outbuffer + offset + 0) = (this->velocity_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->velocity_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->velocity_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->velocity_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->velocity_length);
-      for( uint32_t i = 0; i < velocity_length; i++){
+      *(outbuffer + offset++) = velocity_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < velocity_length; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->velocity[i]);
       }
-      *(outbuffer + offset + 0) = (this->effort_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->effort_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->effort_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->effort_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->effort_length);
-      for( uint32_t i = 0; i < effort_length; i++){
+      *(outbuffer + offset++) = effort_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < effort_length; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->effort[i]);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
-      uint32_t name_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      name_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      name_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      name_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->name_length);
+      uint8_t name_lengthT = *(inbuffer + offset++);
       if(name_lengthT > name_length)
         this->name = (char**)realloc(this->name, name_lengthT * sizeof(char*));
+      offset += 3;
       name_length = name_lengthT;
-      for( uint32_t i = 0; i < name_length; i++){
+      for( uint8_t i = 0; i < name_length; i++){
       uint32_t length_st_name;
-      arrToVar(length_st_name, (inbuffer + offset));
+      memcpy(&length_st_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_st_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -110,47 +96,38 @@ namespace sensor_msgs
       offset += length_st_name;
         memcpy( &(this->name[i]), &(this->st_name), sizeof(char*));
       }
-      uint32_t position_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      position_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      position_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      position_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->position_length);
+      uint8_t position_lengthT = *(inbuffer + offset++);
       if(position_lengthT > position_length)
         this->position = (float*)realloc(this->position, position_lengthT * sizeof(float));
+      offset += 3;
       position_length = position_lengthT;
-      for( uint32_t i = 0; i < position_length; i++){
+      for( uint8_t i = 0; i < position_length; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->st_position));
         memcpy( &(this->position[i]), &(this->st_position), sizeof(float));
       }
-      uint32_t velocity_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      velocity_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      velocity_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      velocity_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->velocity_length);
+      uint8_t velocity_lengthT = *(inbuffer + offset++);
       if(velocity_lengthT > velocity_length)
         this->velocity = (float*)realloc(this->velocity, velocity_lengthT * sizeof(float));
+      offset += 3;
       velocity_length = velocity_lengthT;
-      for( uint32_t i = 0; i < velocity_length; i++){
+      for( uint8_t i = 0; i < velocity_length; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->st_velocity));
         memcpy( &(this->velocity[i]), &(this->st_velocity), sizeof(float));
       }
-      uint32_t effort_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      effort_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      effort_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      effort_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->effort_length);
+      uint8_t effort_lengthT = *(inbuffer + offset++);
       if(effort_lengthT > effort_length)
         this->effort = (float*)realloc(this->effort, effort_lengthT * sizeof(float));
+      offset += 3;
       effort_length = effort_lengthT;
-      for( uint32_t i = 0; i < effort_length; i++){
+      for( uint8_t i = 0; i < effort_length; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->st_effort));
         memcpy( &(this->effort[i]), &(this->st_effort), sizeof(float));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_JointState_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_JointState_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/JointState"; };
+    const char * getMD5(){ return "3066dcd76a6cfaef579bd0f34173e9fd"; };
 
   };
 

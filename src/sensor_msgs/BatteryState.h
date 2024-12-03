@@ -10,47 +10,25 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_BatteryState_type[] PROGMEM= "sensor_msgs/BatteryState";
-    static const char sensor_msgs_BatteryState_md5[] PROGMEM= "4ddae7f048e32fda22cac764685e3974";
   class BatteryState : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef float _voltage_type;
-      _voltage_type voltage;
-      typedef float _temperature_type;
-      _temperature_type temperature;
-      typedef float _current_type;
-      _current_type current;
-      typedef float _charge_type;
-      _charge_type charge;
-      typedef float _capacity_type;
-      _capacity_type capacity;
-      typedef float _design_capacity_type;
-      _design_capacity_type design_capacity;
-      typedef float _percentage_type;
-      _percentage_type percentage;
-      typedef uint8_t _power_supply_status_type;
-      _power_supply_status_type power_supply_status;
-      typedef uint8_t _power_supply_health_type;
-      _power_supply_health_type power_supply_health;
-      typedef uint8_t _power_supply_technology_type;
-      _power_supply_technology_type power_supply_technology;
-      typedef bool _present_type;
-      _present_type present;
-      uint32_t cell_voltage_length;
-      typedef float _cell_voltage_type;
-      _cell_voltage_type st_cell_voltage;
-      _cell_voltage_type * cell_voltage;
-      uint32_t cell_temperature_length;
-      typedef float _cell_temperature_type;
-      _cell_temperature_type st_cell_temperature;
-      _cell_temperature_type * cell_temperature;
-      typedef const char* _location_type;
-      _location_type location;
-      typedef const char* _serial_number_type;
-      _serial_number_type serial_number;
+      std_msgs::Header header;
+      float voltage;
+      float current;
+      float charge;
+      float capacity;
+      float design_capacity;
+      float percentage;
+      uint8_t power_supply_status;
+      uint8_t power_supply_health;
+      uint8_t power_supply_technology;
+      bool present;
+      uint8_t cell_voltage_length;
+      float st_cell_voltage;
+      float * cell_voltage;
+      const char* location;
+      const char* serial_number;
       enum { POWER_SUPPLY_STATUS_UNKNOWN =  0 };
       enum { POWER_SUPPLY_STATUS_CHARGING =  1 };
       enum { POWER_SUPPLY_STATUS_DISCHARGING =  2 };
@@ -76,7 +54,6 @@ namespace sensor_msgs
     BatteryState():
       header(),
       voltage(0),
-      temperature(0),
       current(0),
       charge(0),
       capacity(0),
@@ -86,14 +63,13 @@ namespace sensor_msgs
       power_supply_health(0),
       power_supply_technology(0),
       present(0),
-      cell_voltage_length(0), st_cell_voltage(), cell_voltage(nullptr),
-      cell_temperature_length(0), st_cell_temperature(), cell_temperature(nullptr),
+      cell_voltage_length(0), cell_voltage(NULL),
       location(""),
       serial_number("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -107,16 +83,6 @@ namespace sensor_msgs
       *(outbuffer + offset + 2) = (u_voltage.base >> (8 * 2)) & 0xFF;
       *(outbuffer + offset + 3) = (u_voltage.base >> (8 * 3)) & 0xFF;
       offset += sizeof(this->voltage);
-      union {
-        float real;
-        uint32_t base;
-      } u_temperature;
-      u_temperature.real = this->temperature;
-      *(outbuffer + offset + 0) = (u_temperature.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_temperature.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_temperature.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_temperature.base >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->temperature);
       union {
         float real;
         uint32_t base;
@@ -180,12 +146,11 @@ namespace sensor_msgs
       u_present.real = this->present;
       *(outbuffer + offset + 0) = (u_present.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->present);
-      *(outbuffer + offset + 0) = (this->cell_voltage_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->cell_voltage_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->cell_voltage_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->cell_voltage_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->cell_voltage_length);
-      for( uint32_t i = 0; i < cell_voltage_length; i++){
+      *(outbuffer + offset++) = cell_voltage_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < cell_voltage_length; i++){
       union {
         float real;
         uint32_t base;
@@ -197,37 +162,20 @@ namespace sensor_msgs
       *(outbuffer + offset + 3) = (u_cell_voltagei.base >> (8 * 3)) & 0xFF;
       offset += sizeof(this->cell_voltage[i]);
       }
-      *(outbuffer + offset + 0) = (this->cell_temperature_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->cell_temperature_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->cell_temperature_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->cell_temperature_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->cell_temperature_length);
-      for( uint32_t i = 0; i < cell_temperature_length; i++){
-      union {
-        float real;
-        uint32_t base;
-      } u_cell_temperaturei;
-      u_cell_temperaturei.real = this->cell_temperature[i];
-      *(outbuffer + offset + 0) = (u_cell_temperaturei.base >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (u_cell_temperaturei.base >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (u_cell_temperaturei.base >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (u_cell_temperaturei.base >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->cell_temperature[i]);
-      }
       uint32_t length_location = strlen(this->location);
-      varToArr(outbuffer + offset, length_location);
+      memcpy(outbuffer + offset, &length_location, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->location, length_location);
       offset += length_location;
       uint32_t length_serial_number = strlen(this->serial_number);
-      varToArr(outbuffer + offset, length_serial_number);
+      memcpy(outbuffer + offset, &length_serial_number, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->serial_number, length_serial_number);
       offset += length_serial_number;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -242,17 +190,6 @@ namespace sensor_msgs
       u_voltage.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       this->voltage = u_voltage.real;
       offset += sizeof(this->voltage);
-      union {
-        float real;
-        uint32_t base;
-      } u_temperature;
-      u_temperature.base = 0;
-      u_temperature.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_temperature.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_temperature.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_temperature.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->temperature = u_temperature.real;
-      offset += sizeof(this->temperature);
       union {
         float real;
         uint32_t base;
@@ -322,15 +259,12 @@ namespace sensor_msgs
       u_present.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->present = u_present.real;
       offset += sizeof(this->present);
-      uint32_t cell_voltage_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      cell_voltage_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      cell_voltage_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      cell_voltage_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->cell_voltage_length);
+      uint8_t cell_voltage_lengthT = *(inbuffer + offset++);
       if(cell_voltage_lengthT > cell_voltage_length)
         this->cell_voltage = (float*)realloc(this->cell_voltage, cell_voltage_lengthT * sizeof(float));
+      offset += 3;
       cell_voltage_length = cell_voltage_lengthT;
-      for( uint32_t i = 0; i < cell_voltage_length; i++){
+      for( uint8_t i = 0; i < cell_voltage_length; i++){
       union {
         float real;
         uint32_t base;
@@ -344,30 +278,8 @@ namespace sensor_msgs
       offset += sizeof(this->st_cell_voltage);
         memcpy( &(this->cell_voltage[i]), &(this->st_cell_voltage), sizeof(float));
       }
-      uint32_t cell_temperature_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      cell_temperature_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      cell_temperature_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      cell_temperature_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->cell_temperature_length);
-      if(cell_temperature_lengthT > cell_temperature_length)
-        this->cell_temperature = (float*)realloc(this->cell_temperature, cell_temperature_lengthT * sizeof(float));
-      cell_temperature_length = cell_temperature_lengthT;
-      for( uint32_t i = 0; i < cell_temperature_length; i++){
-      union {
-        float real;
-        uint32_t base;
-      } u_st_cell_temperature;
-      u_st_cell_temperature.base = 0;
-      u_st_cell_temperature.base |= ((uint32_t) (*(inbuffer + offset + 0))) << (8 * 0);
-      u_st_cell_temperature.base |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1);
-      u_st_cell_temperature.base |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
-      u_st_cell_temperature.base |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
-      this->st_cell_temperature = u_st_cell_temperature.real;
-      offset += sizeof(this->st_cell_temperature);
-        memcpy( &(this->cell_temperature[i]), &(this->st_cell_temperature), sizeof(float));
-      }
       uint32_t length_location;
-      arrToVar(length_location, (inbuffer + offset));
+      memcpy(&length_location, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_location; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -376,7 +288,7 @@ namespace sensor_msgs
       this->location = (char *)(inbuffer + offset-1);
       offset += length_location;
       uint32_t length_serial_number;
-      arrToVar(length_serial_number, (inbuffer + offset));
+      memcpy(&length_serial_number, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_serial_number; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -387,8 +299,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_BatteryState_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_BatteryState_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/BatteryState"; };
+    const char * getMD5(){ return "476f837fa6771f6e16e3bf4ef96f8770"; };
 
   };
 

@@ -9,15 +9,11 @@
 namespace dynamic_reconfigure
 {
 
-    static const char dynamic_reconfigure_IntParameter_type[] PROGMEM= "dynamic_reconfigure/IntParameter";
-    static const char dynamic_reconfigure_IntParameter_md5[] PROGMEM= "65fedc7a0cbfb8db035e46194a350bf1";
   class IntParameter : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef int32_t _value_type;
-      _value_type value;
+      const char* name;
+      int32_t value;
 
     IntParameter():
       name(""),
@@ -25,11 +21,11 @@ namespace dynamic_reconfigure
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
@@ -46,11 +42,11 @@ namespace dynamic_reconfigure
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -72,8 +68,8 @@ namespace dynamic_reconfigure
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)dynamic_reconfigure_IntParameter_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_IntParameter_md5);return md5_msg; };
+    const char * getType(){ return "dynamic_reconfigure/IntParameter"; };
+    const char * getMD5(){ return "65fedc7a0cbfb8db035e46194a350bf1"; };
 
   };
 

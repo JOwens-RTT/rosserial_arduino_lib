@@ -10,17 +10,12 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_FluidPressure_type[] PROGMEM= "sensor_msgs/FluidPressure";
-    static const char sensor_msgs_FluidPressure_md5[] PROGMEM= "804dc5cea1c5306d6a2eb80b9833befe";
   class FluidPressure : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef float _fluid_pressure_type;
-      _fluid_pressure_type fluid_pressure;
-      typedef float _variance_type;
-      _variance_type variance;
+      std_msgs::Header header;
+      float fluid_pressure;
+      float variance;
 
     FluidPressure():
       header(),
@@ -29,7 +24,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -38,7 +33,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -47,8 +42,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_FluidPressure_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_FluidPressure_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/FluidPressure"; };
+    const char * getMD5(){ return "804dc5cea1c5306d6a2eb80b9833befe"; };
 
   };
 

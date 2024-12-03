@@ -8,37 +8,34 @@
 namespace topic_tools
 {
 
-static const char DEMUXSELECT[] PROGMEM= "topic_tools/DemuxSelect";
+static const char DEMUXSELECT[] = "topic_tools/DemuxSelect";
 
-    static const char topic_tools_DemuxSelectRequest_type[] PROGMEM= "topic_tools/DemuxSelectRequest";
-    static const char topic_tools_DemuxSelectRequest_md5[] PROGMEM= "d8f94bae31b356b24d0427f80426d0c3";
   class DemuxSelectRequest : public ros::Msg
   {
     public:
-      typedef const char* _topic_type;
-      _topic_type topic;
+      const char* topic;
 
     DemuxSelectRequest():
       topic("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_topic = strlen(this->topic);
-      varToArr(outbuffer + offset, length_topic);
+      memcpy(outbuffer + offset, &length_topic, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->topic, length_topic);
       offset += length_topic;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_topic;
-      arrToVar(length_topic, (inbuffer + offset));
+      memcpy(&length_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_topic; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -49,40 +46,37 @@ static const char DEMUXSELECT[] PROGMEM= "topic_tools/DemuxSelect";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)DEMUXSELECT);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_DemuxSelectRequest_md5);return md5_msg; };
+    const char * getType(){ return DEMUXSELECT; };
+    const char * getMD5(){ return "d8f94bae31b356b24d0427f80426d0c3"; };
 
   };
 
-    static const char topic_tools_DemuxSelectResponse_type[] PROGMEM= "topic_tools/DemuxSelectResponse";
-    static const char topic_tools_DemuxSelectResponse_md5[] PROGMEM= "3db0a473debdbafea387c9e49358c320";
   class DemuxSelectResponse : public ros::Msg
   {
     public:
-      typedef const char* _prev_topic_type;
-      _prev_topic_type prev_topic;
+      const char* prev_topic;
 
     DemuxSelectResponse():
       prev_topic("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_prev_topic = strlen(this->prev_topic);
-      varToArr(outbuffer + offset, length_prev_topic);
+      memcpy(outbuffer + offset, &length_prev_topic, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->prev_topic, length_prev_topic);
       offset += length_prev_topic;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_prev_topic;
-      arrToVar(length_prev_topic, (inbuffer + offset));
+      memcpy(&length_prev_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_prev_topic; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -93,8 +87,8 @@ static const char DEMUXSELECT[] PROGMEM= "topic_tools/DemuxSelect";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)DEMUXSELECT);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_DemuxSelectResponse_md5);return md5_msg; };
+    const char * getType(){ return DEMUXSELECT; };
+    const char * getMD5(){ return "3db0a473debdbafea387c9e49358c320"; };
 
   };
 

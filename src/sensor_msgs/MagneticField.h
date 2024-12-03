@@ -11,15 +11,11 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_MagneticField_type[] PROGMEM= "sensor_msgs/MagneticField";
-    static const char sensor_msgs_MagneticField_md5[] PROGMEM= "2f3b0b43eed0c9501de0fa3ff89a45aa";
   class MagneticField : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef geometry_msgs::Vector3 _magnetic_field_type;
-      _magnetic_field_type magnetic_field;
+      std_msgs::Header header;
+      geometry_msgs::Vector3 magnetic_field;
       float magnetic_field_covariance[9];
 
     MagneticField():
@@ -29,30 +25,30 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
       offset += this->magnetic_field.serialize(outbuffer + offset);
-      for( uint32_t i = 0; i < 9; i++){
+      for( uint8_t i = 0; i < 9; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->magnetic_field_covariance[i]);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
       offset += this->magnetic_field.deserialize(inbuffer + offset);
-      for( uint32_t i = 0; i < 9; i++){
+      for( uint8_t i = 0; i < 9; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->magnetic_field_covariance[i]));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_MagneticField_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_MagneticField_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/MagneticField"; };
+    const char * getMD5(){ return "2f3b0b43eed0c9501de0fa3ff89a45aa"; };
 
   };
 

@@ -9,20 +9,17 @@
 namespace std_msgs
 {
 
-    static const char std_msgs_Byte_type[] PROGMEM= "std_msgs/Byte";
-    static const char std_msgs_Byte_md5[] PROGMEM= "ad736a2e8818154c487bb80fe42ce43b";
   class Byte : public ros::Msg
   {
     public:
-      typedef int8_t _data_type;
-      _data_type data;
+      int8_t data;
 
     Byte():
       data(0)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -35,7 +32,7 @@ namespace std_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -49,8 +46,8 @@ namespace std_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)std_msgs_Byte_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_msgs_Byte_md5);return md5_msg; };
+    const char * getType(){ return "std_msgs/Byte"; };
+    const char * getMD5(){ return "ad736a2e8818154c487bb80fe42ce43b"; };
 
   };
 

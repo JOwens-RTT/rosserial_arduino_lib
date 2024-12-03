@@ -10,27 +10,17 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Inertia_type[] PROGMEM= "geometry_msgs/Inertia";
-    static const char geometry_msgs_Inertia_md5[] PROGMEM= "1d26e4bb6c83ff141c5cf0d883c2b0fe";
   class Inertia : public ros::Msg
   {
     public:
-      typedef float _m_type;
-      _m_type m;
-      typedef geometry_msgs::Vector3 _com_type;
-      _com_type com;
-      typedef float _ixx_type;
-      _ixx_type ixx;
-      typedef float _ixy_type;
-      _ixy_type ixy;
-      typedef float _ixz_type;
-      _ixz_type ixz;
-      typedef float _iyy_type;
-      _iyy_type iyy;
-      typedef float _iyz_type;
-      _iyz_type iyz;
-      typedef float _izz_type;
-      _izz_type izz;
+      float m;
+      geometry_msgs::Vector3 com;
+      float ixx;
+      float ixy;
+      float ixz;
+      float iyy;
+      float iyz;
+      float izz;
 
     Inertia():
       m(0),
@@ -44,7 +34,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += serializeAvrFloat64(outbuffer + offset, this->m);
@@ -58,7 +48,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->m));
@@ -72,8 +62,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Inertia_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Inertia_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Inertia"; };
+    const char * getMD5(){ return "1d26e4bb6c83ff141c5cf0d883c2b0fe"; };
 
   };
 

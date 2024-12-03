@@ -9,20 +9,17 @@
 namespace actionlib
 {
 
-    static const char actionlib_TwoIntsResult_type[] PROGMEM= "actionlib/TwoIntsResult";
-    static const char actionlib_TwoIntsResult_md5[] PROGMEM= "b88405221c77b1878a3cbbfff53428d7";
   class TwoIntsResult : public ros::Msg
   {
     public:
-      typedef int64_t _sum_type;
-      _sum_type sum;
+      int64_t sum;
 
     TwoIntsResult():
       sum(0)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -42,7 +39,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -63,8 +60,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TwoIntsResult_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TwoIntsResult_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TwoIntsResult"; };
+    const char * getMD5(){ return "b88405221c77b1878a3cbbfff53428d7"; };
 
   };
 

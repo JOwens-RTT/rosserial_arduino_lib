@@ -9,15 +9,11 @@
 namespace actionlib
 {
 
-    static const char actionlib_TestRequestResult_type[] PROGMEM= "actionlib/TestRequestResult";
-    static const char actionlib_TestRequestResult_md5[] PROGMEM= "61c2364524499c7c5017e2f3fce7ba06";
   class TestRequestResult : public ros::Msg
   {
     public:
-      typedef int32_t _the_result_type;
-      _the_result_type the_result;
-      typedef bool _is_simple_server_type;
-      _is_simple_server_type is_simple_server;
+      int32_t the_result;
+      bool is_simple_server;
 
     TestRequestResult():
       the_result(0),
@@ -25,7 +21,7 @@ namespace actionlib
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -48,7 +44,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -73,8 +69,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TestRequestResult_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TestRequestResult_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TestRequestResult"; };
+    const char * getMD5(){ return "61c2364524499c7c5017e2f3fce7ba06"; };
 
   };
 

@@ -9,15 +9,11 @@
 namespace rosserial_msgs
 {
 
-    static const char rosserial_msgs_Log_type[] PROGMEM= "rosserial_msgs/Log";
-    static const char rosserial_msgs_Log_md5[] PROGMEM= "11abd731c25933261cd6183bd12d6295";
   class Log : public ros::Msg
   {
     public:
-      typedef uint8_t _level_type;
-      _level_type level;
-      typedef const char* _msg_type;
-      _msg_type msg;
+      uint8_t level;
+      const char* msg;
       enum { ROSDEBUG = 0 };
       enum { INFO = 1 };
       enum { WARN = 2 };
@@ -30,26 +26,26 @@ namespace rosserial_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->level >> (8 * 0)) & 0xFF;
       offset += sizeof(this->level);
       uint32_t length_msg = strlen(this->msg);
-      varToArr(outbuffer + offset, length_msg);
+      memcpy(outbuffer + offset, &length_msg, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->msg, length_msg);
       offset += length_msg;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->level =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->level);
       uint32_t length_msg;
-      arrToVar(length_msg, (inbuffer + offset));
+      memcpy(&length_msg, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_msg; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -60,8 +56,8 @@ namespace rosserial_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)rosserial_msgs_Log_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)rosserial_msgs_Log_md5);return md5_msg; };
+    const char * getType(){ return "rosserial_msgs/Log"; };
+    const char * getMD5(){ return "11abd731c25933261cd6183bd12d6295"; };
 
   };
 

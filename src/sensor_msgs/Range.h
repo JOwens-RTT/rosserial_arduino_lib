@@ -10,23 +10,15 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_Range_type[] PROGMEM= "sensor_msgs/Range";
-    static const char sensor_msgs_Range_md5[] PROGMEM= "c005c34273dc426c67a020a87bc24148";
   class Range : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef uint8_t _radiation_type_type;
-      _radiation_type_type radiation_type;
-      typedef float _field_of_view_type;
-      _field_of_view_type field_of_view;
-      typedef float _min_range_type;
-      _min_range_type min_range;
-      typedef float _max_range_type;
-      _max_range_type max_range;
-      typedef float _range_type;
-      _range_type range;
+      std_msgs::Header header;
+      uint8_t radiation_type;
+      float field_of_view;
+      float min_range;
+      float max_range;
+      float range;
       enum { ULTRASOUND = 0 };
       enum { INFRARED = 1 };
 
@@ -40,7 +32,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -89,7 +81,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -142,8 +134,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_Range_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_Range_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/Range"; };
+    const char * getMD5(){ return "c005c34273dc426c67a020a87bc24148"; };
 
   };
 

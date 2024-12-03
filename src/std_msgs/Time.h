@@ -10,20 +10,17 @@
 namespace std_msgs
 {
 
-    static const char std_msgs_Time_type[] PROGMEM= "std_msgs/Time";
-    static const char std_msgs_Time_md5[] PROGMEM= "cd7166c74c552c311fbcc2fe5a7bc289";
   class Time : public ros::Msg
   {
     public:
-      typedef ros::Time _data_type;
-      _data_type data;
+      ros::Time data;
 
     Time():
       data()
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->data.sec >> (8 * 0)) & 0xFF;
@@ -39,7 +36,7 @@ namespace std_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->data.sec =  ((uint32_t) (*(inbuffer + offset)));
@@ -55,8 +52,8 @@ namespace std_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)std_msgs_Time_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_msgs_Time_md5);return md5_msg; };
+    const char * getType(){ return "std_msgs/Time"; };
+    const char * getMD5(){ return "cd7166c74c552c311fbcc2fe5a7bc289"; };
 
   };
 

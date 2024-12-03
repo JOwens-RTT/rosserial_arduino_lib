@@ -9,19 +9,13 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_PointField_type[] PROGMEM= "sensor_msgs/PointField";
-    static const char sensor_msgs_PointField_md5[] PROGMEM= "268eacb2962780ceac86cbd17e328150";
   class PointField : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef uint32_t _offset_type;
-      _offset_type offset;
-      typedef uint8_t _datatype_type;
-      _datatype_type datatype;
-      typedef uint32_t _count_type;
-      _count_type count;
+      const char* name;
+      uint32_t offset;
+      uint8_t datatype;
+      uint32_t count;
       enum { INT8 =  1 };
       enum { UINT8 =  2 };
       enum { INT16 =  3 };
@@ -39,11 +33,11 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
@@ -62,11 +56,11 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -89,8 +83,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_PointField_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_PointField_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/PointField"; };
+    const char * getMD5(){ return "268eacb2962780ceac86cbd17e328150"; };
 
   };
 

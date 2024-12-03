@@ -9,21 +9,14 @@
 namespace visualization_msgs
 {
 
-    static const char visualization_msgs_MenuEntry_type[] PROGMEM= "visualization_msgs/MenuEntry";
-    static const char visualization_msgs_MenuEntry_md5[] PROGMEM= "b90ec63024573de83b57aa93eb39be2d";
   class MenuEntry : public ros::Msg
   {
     public:
-      typedef uint32_t _id_type;
-      _id_type id;
-      typedef uint32_t _parent_id_type;
-      _parent_id_type parent_id;
-      typedef const char* _title_type;
-      _title_type title;
-      typedef const char* _command_type;
-      _command_type command;
-      typedef uint8_t _command_type_type;
-      _command_type_type command_type;
+      uint32_t id;
+      uint32_t parent_id;
+      const char* title;
+      const char* command;
+      uint8_t command_type;
       enum { FEEDBACK = 0 };
       enum { ROSRUN = 1 };
       enum { ROSLAUNCH = 2 };
@@ -37,7 +30,7 @@ namespace visualization_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->id >> (8 * 0)) & 0xFF;
@@ -51,12 +44,12 @@ namespace visualization_msgs
       *(outbuffer + offset + 3) = (this->parent_id >> (8 * 3)) & 0xFF;
       offset += sizeof(this->parent_id);
       uint32_t length_title = strlen(this->title);
-      varToArr(outbuffer + offset, length_title);
+      memcpy(outbuffer + offset, &length_title, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->title, length_title);
       offset += length_title;
       uint32_t length_command = strlen(this->command);
-      varToArr(outbuffer + offset, length_command);
+      memcpy(outbuffer + offset, &length_command, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->command, length_command);
       offset += length_command;
@@ -65,7 +58,7 @@ namespace visualization_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->id =  ((uint32_t) (*(inbuffer + offset)));
@@ -79,7 +72,7 @@ namespace visualization_msgs
       this->parent_id |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->parent_id);
       uint32_t length_title;
-      arrToVar(length_title, (inbuffer + offset));
+      memcpy(&length_title, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_title; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -88,7 +81,7 @@ namespace visualization_msgs
       this->title = (char *)(inbuffer + offset-1);
       offset += length_title;
       uint32_t length_command;
-      arrToVar(length_command, (inbuffer + offset));
+      memcpy(&length_command, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_command; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -101,8 +94,8 @@ namespace visualization_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)visualization_msgs_MenuEntry_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)visualization_msgs_MenuEntry_md5);return md5_msg; };
+    const char * getType(){ return "visualization_msgs/MenuEntry"; };
+    const char * getMD5(){ return "b90ec63024573de83b57aa93eb39be2d"; };
 
   };
 

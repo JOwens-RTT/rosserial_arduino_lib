@@ -9,10 +9,8 @@
 namespace roscpp
 {
 
-static const char GETLOGGERS[] PROGMEM= "roscpp/GetLoggers";
+static const char GETLOGGERS[] = "roscpp/GetLoggers";
 
-    static const char roscpp_GetLoggersRequest_type[] PROGMEM= "roscpp/GetLoggersRequest";
-    static const char roscpp_GetLoggersRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class GetLoggersRequest : public ros::Msg
   {
     public:
@@ -21,72 +19,65 @@ static const char GETLOGGERS[] PROGMEM= "roscpp/GetLoggers";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)GETLOGGERS);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)roscpp_GetLoggersRequest_md5);return md5_msg; };
+    const char * getType(){ return GETLOGGERS; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char roscpp_GetLoggersResponse_type[] PROGMEM= "roscpp/GetLoggersResponse";
-    static const char roscpp_GetLoggersResponse_md5[] PROGMEM= "32e97e85527d4678a8f9279894bb64b0";
   class GetLoggersResponse : public ros::Msg
   {
     public:
-      uint32_t loggers_length;
-      typedef roscpp::Logger _loggers_type;
-      _loggers_type st_loggers;
-      _loggers_type * loggers;
+      uint8_t loggers_length;
+      roscpp::Logger st_loggers;
+      roscpp::Logger * loggers;
 
     GetLoggersResponse():
-      loggers_length(0), st_loggers(), loggers(nullptr)
+      loggers_length(0), loggers(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      *(outbuffer + offset + 0) = (this->loggers_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->loggers_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->loggers_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->loggers_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->loggers_length);
-      for( uint32_t i = 0; i < loggers_length; i++){
+      *(outbuffer + offset++) = loggers_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < loggers_length; i++){
       offset += this->loggers[i].serialize(outbuffer + offset);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t loggers_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      loggers_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      loggers_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      loggers_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->loggers_length);
+      uint8_t loggers_lengthT = *(inbuffer + offset++);
       if(loggers_lengthT > loggers_length)
         this->loggers = (roscpp::Logger*)realloc(this->loggers, loggers_lengthT * sizeof(roscpp::Logger));
+      offset += 3;
       loggers_length = loggers_lengthT;
-      for( uint32_t i = 0; i < loggers_length; i++){
+      for( uint8_t i = 0; i < loggers_length; i++){
       offset += this->st_loggers.deserialize(inbuffer + offset);
         memcpy( &(this->loggers[i]), &(this->st_loggers), sizeof(roscpp::Logger));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)GETLOGGERS);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)roscpp_GetLoggersResponse_md5);return md5_msg; };
+    const char * getType(){ return GETLOGGERS; };
+    const char * getMD5(){ return "32e97e85527d4678a8f9279894bb64b0"; };
 
   };
 

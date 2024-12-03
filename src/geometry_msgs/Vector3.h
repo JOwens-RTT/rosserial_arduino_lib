@@ -9,17 +9,12 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Vector3_type[] PROGMEM= "geometry_msgs/Vector3";
-    static const char geometry_msgs_Vector3_md5[] PROGMEM= "4a842b65f413084dc2b10fb484ea7f17";
   class Vector3 : public ros::Msg
   {
     public:
-      typedef float _x_type;
-      _x_type x;
-      typedef float _y_type;
-      _y_type y;
-      typedef float _z_type;
-      _z_type z;
+      float x;
+      float y;
+      float z;
 
     Vector3():
       x(0),
@@ -28,7 +23,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += serializeAvrFloat64(outbuffer + offset, this->x);
@@ -37,7 +32,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->x));
@@ -46,8 +41,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Vector3_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Vector3_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Vector3"; };
+    const char * getMD5(){ return "4a842b65f413084dc2b10fb484ea7f17"; };
 
   };
 

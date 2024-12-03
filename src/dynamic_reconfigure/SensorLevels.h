@@ -9,8 +9,6 @@
 namespace dynamic_reconfigure
 {
 
-    static const char dynamic_reconfigure_SensorLevels_type[] PROGMEM= "dynamic_reconfigure/SensorLevels";
-    static const char dynamic_reconfigure_SensorLevels_md5[] PROGMEM= "6322637bee96d5489db6e2127c47602c";
   class SensorLevels : public ros::Msg
   {
     public:
@@ -22,20 +20,20 @@ namespace dynamic_reconfigure
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)dynamic_reconfigure_SensorLevels_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_SensorLevels_md5);return md5_msg; };
+    const char * getType(){ return "dynamic_reconfigure/SensorLevels"; };
+    const char * getMD5(){ return "6322637bee96d5489db6e2127c47602c"; };
 
   };
 

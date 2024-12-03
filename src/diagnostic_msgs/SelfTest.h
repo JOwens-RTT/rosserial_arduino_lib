@@ -9,10 +9,8 @@
 namespace diagnostic_msgs
 {
 
-static const char SELFTEST[] PROGMEM= "diagnostic_msgs/SelfTest";
+static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
 
-    static const char diagnostic_msgs_SelfTestRequest_type[] PROGMEM= "diagnostic_msgs/SelfTestRequest";
-    static const char diagnostic_msgs_SelfTestRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class SelfTestRequest : public ros::Msg
   {
     public:
@@ -21,49 +19,44 @@ static const char SELFTEST[] PROGMEM= "diagnostic_msgs/SelfTest";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)SELFTEST);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)diagnostic_msgs_SelfTestRequest_md5);return md5_msg; };
+    const char * getType(){ return SELFTEST; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char diagnostic_msgs_SelfTestResponse_type[] PROGMEM= "diagnostic_msgs/SelfTestResponse";
-    static const char diagnostic_msgs_SelfTestResponse_md5[] PROGMEM= "ac21b1bab7ab17546986536c22eb34e9";
   class SelfTestResponse : public ros::Msg
   {
     public:
-      typedef const char* _id_type;
-      _id_type id;
-      typedef int8_t _passed_type;
-      _passed_type passed;
-      uint32_t status_length;
-      typedef diagnostic_msgs::DiagnosticStatus _status_type;
-      _status_type st_status;
-      _status_type * status;
+      const char* id;
+      int8_t passed;
+      uint8_t status_length;
+      diagnostic_msgs::DiagnosticStatus st_status;
+      diagnostic_msgs::DiagnosticStatus * status;
 
     SelfTestResponse():
       id(""),
       passed(0),
-      status_length(0), st_status(), status(nullptr)
+      status_length(0), status(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_id = strlen(this->id);
-      varToArr(outbuffer + offset, length_id);
+      memcpy(outbuffer + offset, &length_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->id, length_id);
       offset += length_id;
@@ -74,22 +67,21 @@ static const char SELFTEST[] PROGMEM= "diagnostic_msgs/SelfTest";
       u_passed.real = this->passed;
       *(outbuffer + offset + 0) = (u_passed.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->passed);
-      *(outbuffer + offset + 0) = (this->status_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->status_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->status_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->status_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->status_length);
-      for( uint32_t i = 0; i < status_length; i++){
+      *(outbuffer + offset++) = status_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < status_length; i++){
       offset += this->status[i].serialize(outbuffer + offset);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_id;
-      arrToVar(length_id, (inbuffer + offset));
+      memcpy(&length_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -105,23 +97,20 @@ static const char SELFTEST[] PROGMEM= "diagnostic_msgs/SelfTest";
       u_passed.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->passed = u_passed.real;
       offset += sizeof(this->passed);
-      uint32_t status_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      status_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      status_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      status_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->status_length);
+      uint8_t status_lengthT = *(inbuffer + offset++);
       if(status_lengthT > status_length)
         this->status = (diagnostic_msgs::DiagnosticStatus*)realloc(this->status, status_lengthT * sizeof(diagnostic_msgs::DiagnosticStatus));
+      offset += 3;
       status_length = status_lengthT;
-      for( uint32_t i = 0; i < status_length; i++){
+      for( uint8_t i = 0; i < status_length; i++){
       offset += this->st_status.deserialize(inbuffer + offset);
         memcpy( &(this->status[i]), &(this->st_status), sizeof(diagnostic_msgs::DiagnosticStatus));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)SELFTEST);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)diagnostic_msgs_SelfTestResponse_md5);return md5_msg; };
+    const char * getType(){ return SELFTEST; };
+    const char * getMD5(){ return "ac21b1bab7ab17546986536c22eb34e9"; };
 
   };
 

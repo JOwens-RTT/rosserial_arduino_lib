@@ -10,55 +10,48 @@
 namespace visualization_msgs
 {
 
-    static const char visualization_msgs_MarkerArray_type[] PROGMEM= "visualization_msgs/MarkerArray";
-    static const char visualization_msgs_MarkerArray_md5[] PROGMEM= "d155b9ce5188fbaf89745847fd5882d7";
   class MarkerArray : public ros::Msg
   {
     public:
-      uint32_t markers_length;
-      typedef visualization_msgs::Marker _markers_type;
-      _markers_type st_markers;
-      _markers_type * markers;
+      uint8_t markers_length;
+      visualization_msgs::Marker st_markers;
+      visualization_msgs::Marker * markers;
 
     MarkerArray():
-      markers_length(0), st_markers(), markers(nullptr)
+      markers_length(0), markers(NULL)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      *(outbuffer + offset + 0) = (this->markers_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->markers_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->markers_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->markers_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->markers_length);
-      for( uint32_t i = 0; i < markers_length; i++){
+      *(outbuffer + offset++) = markers_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < markers_length; i++){
       offset += this->markers[i].serialize(outbuffer + offset);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t markers_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->markers_length);
+      uint8_t markers_lengthT = *(inbuffer + offset++);
       if(markers_lengthT > markers_length)
         this->markers = (visualization_msgs::Marker*)realloc(this->markers, markers_lengthT * sizeof(visualization_msgs::Marker));
+      offset += 3;
       markers_length = markers_lengthT;
-      for( uint32_t i = 0; i < markers_length; i++){
+      for( uint8_t i = 0; i < markers_length; i++){
       offset += this->st_markers.deserialize(inbuffer + offset);
         memcpy( &(this->markers[i]), &(this->st_markers), sizeof(visualization_msgs::Marker));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)visualization_msgs_MarkerArray_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)visualization_msgs_MarkerArray_md5);return md5_msg; };
+    const char * getType(){ return "visualization_msgs/MarkerArray"; };
+    const char * getMD5(){ return "90da67007c26525f655c1c269094e39f"; };
 
   };
 

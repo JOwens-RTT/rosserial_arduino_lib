@@ -11,17 +11,12 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_TimeReference_type[] PROGMEM= "sensor_msgs/TimeReference";
-    static const char sensor_msgs_TimeReference_md5[] PROGMEM= "fded64a0265108ba86c3d38fb11c0c16";
   class TimeReference : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef ros::Time _time_ref_type;
-      _time_ref_type time_ref;
-      typedef const char* _source_type;
-      _source_type source;
+      std_msgs::Header header;
+      ros::Time time_ref;
+      const char* source;
 
     TimeReference():
       header(),
@@ -30,7 +25,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -45,14 +40,14 @@ namespace sensor_msgs
       *(outbuffer + offset + 3) = (this->time_ref.nsec >> (8 * 3)) & 0xFF;
       offset += sizeof(this->time_ref.nsec);
       uint32_t length_source = strlen(this->source);
-      varToArr(outbuffer + offset, length_source);
+      memcpy(outbuffer + offset, &length_source, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->source, length_source);
       offset += length_source;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -67,7 +62,7 @@ namespace sensor_msgs
       this->time_ref.nsec |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->time_ref.nsec);
       uint32_t length_source;
-      arrToVar(length_source, (inbuffer + offset));
+      memcpy(&length_source, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_source; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -78,8 +73,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_TimeReference_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_TimeReference_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/TimeReference"; };
+    const char * getMD5(){ return "fded64a0265108ba86c3d38fb11c0c16"; };
 
   };
 

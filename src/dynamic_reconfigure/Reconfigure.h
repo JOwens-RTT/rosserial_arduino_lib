@@ -9,69 +9,63 @@
 namespace dynamic_reconfigure
 {
 
-static const char RECONFIGURE[] PROGMEM= "dynamic_reconfigure/Reconfigure";
+static const char RECONFIGURE[] = "dynamic_reconfigure/Reconfigure";
 
-    static const char dynamic_reconfigure_ReconfigureRequest_type[] PROGMEM= "dynamic_reconfigure/ReconfigureRequest";
-    static const char dynamic_reconfigure_ReconfigureRequest_md5[] PROGMEM= "ac41a77620a4a0348b7001641796a8a1";
   class ReconfigureRequest : public ros::Msg
   {
     public:
-      typedef dynamic_reconfigure::Config _config_type;
-      _config_type config;
+      dynamic_reconfigure::Config config;
 
     ReconfigureRequest():
       config()
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->config.serialize(outbuffer + offset);
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->config.deserialize(inbuffer + offset);
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)RECONFIGURE);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_ReconfigureRequest_md5);return md5_msg; };
+    const char * getType(){ return RECONFIGURE; };
+    const char * getMD5(){ return "ac41a77620a4a0348b7001641796a8a1"; };
 
   };
 
-    static const char dynamic_reconfigure_ReconfigureResponse_type[] PROGMEM= "dynamic_reconfigure/ReconfigureResponse";
-    static const char dynamic_reconfigure_ReconfigureResponse_md5[] PROGMEM= "ac41a77620a4a0348b7001641796a8a1";
   class ReconfigureResponse : public ros::Msg
   {
     public:
-      typedef dynamic_reconfigure::Config _config_type;
-      _config_type config;
+      dynamic_reconfigure::Config config;
 
     ReconfigureResponse():
       config()
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->config.serialize(outbuffer + offset);
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->config.deserialize(inbuffer + offset);
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)RECONFIGURE);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_ReconfigureResponse_md5);return md5_msg; };
+    const char * getType(){ return RECONFIGURE; };
+    const char * getMD5(){ return "ac41a77620a4a0348b7001641796a8a1"; };
 
   };
 

@@ -9,15 +9,11 @@
 namespace actionlib
 {
 
-    static const char actionlib_TwoIntsGoal_type[] PROGMEM= "actionlib/TwoIntsGoal";
-    static const char actionlib_TwoIntsGoal_md5[] PROGMEM= "36d09b846be0b371c5f190354dd3153e";
   class TwoIntsGoal : public ros::Msg
   {
     public:
-      typedef int64_t _a_type;
-      _a_type a;
-      typedef int64_t _b_type;
-      _b_type b;
+      int64_t a;
+      int64_t b;
 
     TwoIntsGoal():
       a(0),
@@ -25,7 +21,7 @@ namespace actionlib
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -59,7 +55,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -95,8 +91,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TwoIntsGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TwoIntsGoal_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TwoIntsGoal"; };
+    const char * getMD5(){ return "36d09b846be0b371c5f190354dd3153e"; };
 
   };
 

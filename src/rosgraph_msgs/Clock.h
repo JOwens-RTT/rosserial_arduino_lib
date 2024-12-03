@@ -10,20 +10,17 @@
 namespace rosgraph_msgs
 {
 
-    static const char rosgraph_msgs_Clock_type[] PROGMEM= "rosgraph_msgs/Clock";
-    static const char rosgraph_msgs_Clock_md5[] PROGMEM= "a9c97c1d230cfc112e270351a944ee47";
   class Clock : public ros::Msg
   {
     public:
-      typedef ros::Time _clock_type;
-      _clock_type clock;
+      ros::Time clock;
 
     Clock():
       clock()
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->clock.sec >> (8 * 0)) & 0xFF;
@@ -39,7 +36,7 @@ namespace rosgraph_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->clock.sec =  ((uint32_t) (*(inbuffer + offset)));
@@ -55,8 +52,8 @@ namespace rosgraph_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)rosgraph_msgs_Clock_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)rosgraph_msgs_Clock_md5);return md5_msg; };
+    const char * getType(){ return "rosgraph_msgs/Clock"; };
+    const char * getMD5(){ return "a9c97c1d230cfc112e270351a944ee47"; };
 
   };
 

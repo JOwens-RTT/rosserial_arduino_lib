@@ -9,19 +9,13 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Quaternion_type[] PROGMEM= "geometry_msgs/Quaternion";
-    static const char geometry_msgs_Quaternion_md5[] PROGMEM= "a779879fadf0160734f906b8c19c7004";
   class Quaternion : public ros::Msg
   {
     public:
-      typedef float _x_type;
-      _x_type x;
-      typedef float _y_type;
-      _y_type y;
-      typedef float _z_type;
-      _z_type z;
-      typedef float _w_type;
-      _w_type w;
+      float x;
+      float y;
+      float z;
+      float w;
 
     Quaternion():
       x(0),
@@ -31,7 +25,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += serializeAvrFloat64(outbuffer + offset, this->x);
@@ -41,7 +35,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->x));
@@ -51,8 +45,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Quaternion_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Quaternion_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Quaternion"; };
+    const char * getMD5(){ return "a779879fadf0160734f906b8c19c7004"; };
 
   };
 

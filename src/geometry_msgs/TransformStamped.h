@@ -11,17 +11,12 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_TransformStamped_type[] PROGMEM= "geometry_msgs/TransformStamped";
-    static const char geometry_msgs_TransformStamped_md5[] PROGMEM= "b5764a33bfeb3588febc2682852579b0";
   class TransformStamped : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef const char* _child_frame_id_type;
-      _child_frame_id_type child_frame_id;
-      typedef geometry_msgs::Transform _transform_type;
-      _transform_type transform;
+      std_msgs::Header header;
+      const char* child_frame_id;
+      geometry_msgs::Transform transform;
 
     TransformStamped():
       header(),
@@ -30,12 +25,12 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
       uint32_t length_child_frame_id = strlen(this->child_frame_id);
-      varToArr(outbuffer + offset, length_child_frame_id);
+      memcpy(outbuffer + offset, &length_child_frame_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->child_frame_id, length_child_frame_id);
       offset += length_child_frame_id;
@@ -43,12 +38,12 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
       uint32_t length_child_frame_id;
-      arrToVar(length_child_frame_id, (inbuffer + offset));
+      memcpy(&length_child_frame_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_child_frame_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -60,8 +55,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_TransformStamped_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_TransformStamped_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/TransformStamped"; };
+    const char * getMD5(){ return "b5764a33bfeb3588febc2682852579b0"; };
 
   };
 

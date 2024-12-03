@@ -11,21 +11,14 @@
 namespace nav_msgs
 {
 
-    static const char nav_msgs_MapMetaData_type[] PROGMEM= "nav_msgs/MapMetaData";
-    static const char nav_msgs_MapMetaData_md5[] PROGMEM= "10cfc8a2818024d3248802c00c95f11b";
   class MapMetaData : public ros::Msg
   {
     public:
-      typedef ros::Time _map_load_time_type;
-      _map_load_time_type map_load_time;
-      typedef float _resolution_type;
-      _resolution_type resolution;
-      typedef uint32_t _width_type;
-      _width_type width;
-      typedef uint32_t _height_type;
-      _height_type height;
-      typedef geometry_msgs::Pose _origin_type;
-      _origin_type origin;
+      ros::Time map_load_time;
+      float resolution;
+      uint32_t width;
+      uint32_t height;
+      geometry_msgs::Pose origin;
 
     MapMetaData():
       map_load_time(),
@@ -36,7 +29,7 @@ namespace nav_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->map_load_time.sec >> (8 * 0)) & 0xFF;
@@ -73,7 +66,7 @@ namespace nav_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->map_load_time.sec =  ((uint32_t) (*(inbuffer + offset)));
@@ -111,8 +104,8 @@ namespace nav_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)nav_msgs_MapMetaData_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nav_msgs_MapMetaData_md5);return md5_msg; };
+    const char * getType(){ return "nav_msgs/MapMetaData"; };
+    const char * getMD5(){ return "10cfc8a2818024d3248802c00c95f11b"; };
 
   };
 

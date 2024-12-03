@@ -11,15 +11,11 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_Transform_type[] PROGMEM= "geometry_msgs/Transform";
-    static const char geometry_msgs_Transform_md5[] PROGMEM= "ac9eff44abf714214112b05d54a3cf9b";
   class Transform : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Vector3 _translation_type;
-      _translation_type translation;
-      typedef geometry_msgs::Quaternion _rotation_type;
-      _rotation_type rotation;
+      geometry_msgs::Vector3 translation;
+      geometry_msgs::Quaternion rotation;
 
     Transform():
       translation(),
@@ -27,7 +23,7 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->translation.serialize(outbuffer + offset);
@@ -35,7 +31,7 @@ namespace geometry_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->translation.deserialize(inbuffer + offset);
@@ -43,8 +39,8 @@ namespace geometry_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_Transform_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_Transform_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/Transform"; };
+    const char * getMD5(){ return "ac9eff44abf714214112b05d54a3cf9b"; };
 
   };
 

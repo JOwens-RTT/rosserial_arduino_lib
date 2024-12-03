@@ -10,27 +10,17 @@
 namespace actionlib
 {
 
-    static const char actionlib_TestRequestGoal_type[] PROGMEM= "actionlib/TestRequestGoal";
-    static const char actionlib_TestRequestGoal_md5[] PROGMEM= "db5d00ba98302d6c6dd3737e9a03ceea";
   class TestRequestGoal : public ros::Msg
   {
     public:
-      typedef int32_t _terminate_status_type;
-      _terminate_status_type terminate_status;
-      typedef bool _ignore_cancel_type;
-      _ignore_cancel_type ignore_cancel;
-      typedef const char* _result_text_type;
-      _result_text_type result_text;
-      typedef int32_t _the_result_type;
-      _the_result_type the_result;
-      typedef bool _is_simple_client_type;
-      _is_simple_client_type is_simple_client;
-      typedef ros::Duration _delay_accept_type;
-      _delay_accept_type delay_accept;
-      typedef ros::Duration _delay_terminate_type;
-      _delay_terminate_type delay_terminate;
-      typedef ros::Duration _pause_status_type;
-      _pause_status_type pause_status;
+      int32_t terminate_status;
+      bool ignore_cancel;
+      const char* result_text;
+      int32_t the_result;
+      bool is_simple_client;
+      ros::Duration delay_accept;
+      ros::Duration delay_terminate;
+      ros::Duration pause_status;
       enum { TERMINATE_SUCCESS =  0 };
       enum { TERMINATE_ABORTED =  1 };
       enum { TERMINATE_REJECTED =  2 };
@@ -50,7 +40,7 @@ namespace actionlib
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -71,7 +61,7 @@ namespace actionlib
       *(outbuffer + offset + 0) = (u_ignore_cancel.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->ignore_cancel);
       uint32_t length_result_text = strlen(this->result_text);
-      varToArr(outbuffer + offset, length_result_text);
+      memcpy(outbuffer + offset, &length_result_text, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->result_text, length_result_text);
       offset += length_result_text;
@@ -125,7 +115,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -148,7 +138,7 @@ namespace actionlib
       this->ignore_cancel = u_ignore_cancel.real;
       offset += sizeof(this->ignore_cancel);
       uint32_t length_result_text;
-      arrToVar(length_result_text, (inbuffer + offset));
+      memcpy(&length_result_text, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_result_text; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -208,8 +198,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TestRequestGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TestRequestGoal_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TestRequestGoal"; };
+    const char * getMD5(){ return "db5d00ba98302d6c6dd3737e9a03ceea"; };
 
   };
 

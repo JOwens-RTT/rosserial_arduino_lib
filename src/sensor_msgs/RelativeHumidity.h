@@ -10,17 +10,12 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_RelativeHumidity_type[] PROGMEM= "sensor_msgs/RelativeHumidity";
-    static const char sensor_msgs_RelativeHumidity_md5[] PROGMEM= "8730015b05955b7e992ce29a2678d90f";
   class RelativeHumidity : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef float _relative_humidity_type;
-      _relative_humidity_type relative_humidity;
-      typedef float _variance_type;
-      _variance_type variance;
+      std_msgs::Header header;
+      float relative_humidity;
+      float variance;
 
     RelativeHumidity():
       header(),
@@ -29,7 +24,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -38,7 +33,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -47,8 +42,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_RelativeHumidity_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_RelativeHumidity_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/RelativeHumidity"; };
+    const char * getMD5(){ return "8730015b05955b7e992ce29a2678d90f"; };
 
   };
 

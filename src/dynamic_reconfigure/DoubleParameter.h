@@ -9,15 +9,11 @@
 namespace dynamic_reconfigure
 {
 
-    static const char dynamic_reconfigure_DoubleParameter_type[] PROGMEM= "dynamic_reconfigure/DoubleParameter";
-    static const char dynamic_reconfigure_DoubleParameter_md5[] PROGMEM= "d8512f27253c0f65f928a67c329cd658";
   class DoubleParameter : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef float _value_type;
-      _value_type value;
+      const char* name;
+      float value;
 
     DoubleParameter():
       name(""),
@@ -25,11 +21,11 @@ namespace dynamic_reconfigure
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
@@ -37,11 +33,11 @@ namespace dynamic_reconfigure
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -53,8 +49,8 @@ namespace dynamic_reconfigure
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)dynamic_reconfigure_DoubleParameter_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_DoubleParameter_md5);return md5_msg; };
+    const char * getType(){ return "dynamic_reconfigure/DoubleParameter"; };
+    const char * getMD5(){ return "d8512f27253c0f65f928a67c329cd658"; };
 
   };
 

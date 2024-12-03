@@ -11,39 +11,32 @@
 namespace dynamic_reconfigure
 {
 
-    static const char dynamic_reconfigure_ConfigDescription_type[] PROGMEM= "dynamic_reconfigure/ConfigDescription";
-    static const char dynamic_reconfigure_ConfigDescription_md5[] PROGMEM= "757ce9d44ba8ddd801bb30bc456f946f";
   class ConfigDescription : public ros::Msg
   {
     public:
-      uint32_t groups_length;
-      typedef dynamic_reconfigure::Group _groups_type;
-      _groups_type st_groups;
-      _groups_type * groups;
-      typedef dynamic_reconfigure::Config _max_type;
-      _max_type max;
-      typedef dynamic_reconfigure::Config _min_type;
-      _min_type min;
-      typedef dynamic_reconfigure::Config _dflt_type;
-      _dflt_type dflt;
+      uint8_t groups_length;
+      dynamic_reconfigure::Group st_groups;
+      dynamic_reconfigure::Group * groups;
+      dynamic_reconfigure::Config max;
+      dynamic_reconfigure::Config min;
+      dynamic_reconfigure::Config dflt;
 
     ConfigDescription():
-      groups_length(0), st_groups(), groups(nullptr),
+      groups_length(0), groups(NULL),
       max(),
       min(),
       dflt()
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      *(outbuffer + offset + 0) = (this->groups_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->groups_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->groups_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->groups_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->groups_length);
-      for( uint32_t i = 0; i < groups_length; i++){
+      *(outbuffer + offset++) = groups_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < groups_length; i++){
       offset += this->groups[i].serialize(outbuffer + offset);
       }
       offset += this->max.serialize(outbuffer + offset);
@@ -52,18 +45,15 @@ namespace dynamic_reconfigure
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t groups_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      groups_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      groups_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      groups_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->groups_length);
+      uint8_t groups_lengthT = *(inbuffer + offset++);
       if(groups_lengthT > groups_length)
         this->groups = (dynamic_reconfigure::Group*)realloc(this->groups, groups_lengthT * sizeof(dynamic_reconfigure::Group));
+      offset += 3;
       groups_length = groups_lengthT;
-      for( uint32_t i = 0; i < groups_length; i++){
+      for( uint8_t i = 0; i < groups_length; i++){
       offset += this->st_groups.deserialize(inbuffer + offset);
         memcpy( &(this->groups[i]), &(this->st_groups), sizeof(dynamic_reconfigure::Group));
       }
@@ -73,8 +63,8 @@ namespace dynamic_reconfigure
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)dynamic_reconfigure_ConfigDescription_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)dynamic_reconfigure_ConfigDescription_md5);return md5_msg; };
+    const char * getType(){ return "dynamic_reconfigure/ConfigDescription"; };
+    const char * getMD5(){ return "757ce9d44ba8ddd801bb30bc456f946f"; };
 
   };
 

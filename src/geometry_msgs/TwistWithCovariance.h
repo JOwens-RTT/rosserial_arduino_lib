@@ -10,13 +10,10 @@
 namespace geometry_msgs
 {
 
-    static const char geometry_msgs_TwistWithCovariance_type[] PROGMEM= "geometry_msgs/TwistWithCovariance";
-    static const char geometry_msgs_TwistWithCovariance_md5[] PROGMEM= "1fe8a28e6890a4cc3ae4c3ca5c7d82e6";
   class TwistWithCovariance : public ros::Msg
   {
     public:
-      typedef geometry_msgs::Twist _twist_type;
-      _twist_type twist;
+      geometry_msgs::Twist twist;
       float covariance[36];
 
     TwistWithCovariance():
@@ -25,28 +22,28 @@ namespace geometry_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->twist.serialize(outbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += serializeAvrFloat64(outbuffer + offset, this->covariance[i]);
       }
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->twist.deserialize(inbuffer + offset);
-      for( uint32_t i = 0; i < 36; i++){
+      for( uint8_t i = 0; i < 36; i++){
       offset += deserializeAvrFloat64(inbuffer + offset, &(this->covariance[i]));
       }
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)geometry_msgs_TwistWithCovariance_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)geometry_msgs_TwistWithCovariance_md5);return md5_msg; };
+    const char * getType(){ return "geometry_msgs/TwistWithCovariance"; };
+    const char * getMD5(){ return "1fe8a28e6890a4cc3ae4c3ca5c7d82e6"; };
 
   };
 

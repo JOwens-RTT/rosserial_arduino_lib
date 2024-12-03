@@ -9,19 +9,13 @@
 namespace std_msgs
 {
 
-    static const char std_msgs_ColorRGBA_type[] PROGMEM= "std_msgs/ColorRGBA";
-    static const char std_msgs_ColorRGBA_md5[] PROGMEM= "a29a96539573343b1310c73607334b00";
   class ColorRGBA : public ros::Msg
   {
     public:
-      typedef float _r_type;
-      _r_type r;
-      typedef float _g_type;
-      _g_type g;
-      typedef float _b_type;
-      _b_type b;
-      typedef float _a_type;
-      _a_type a;
+      float r;
+      float g;
+      float b;
+      float a;
 
     ColorRGBA():
       r(0),
@@ -31,7 +25,7 @@ namespace std_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -77,7 +71,7 @@ namespace std_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -127,8 +121,8 @@ namespace std_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)std_msgs_ColorRGBA_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_msgs_ColorRGBA_md5);return md5_msg; };
+    const char * getType(){ return "std_msgs/ColorRGBA"; };
+    const char * getMD5(){ return "a29a96539573343b1310c73607334b00"; };
 
   };
 

@@ -9,17 +9,12 @@
 namespace std_msgs
 {
 
-    static const char std_msgs_MultiArrayDimension_type[] PROGMEM= "std_msgs/MultiArrayDimension";
-    static const char std_msgs_MultiArrayDimension_md5[] PROGMEM= "4cd0c83a8683deae40ecdac60e53bfa8";
   class MultiArrayDimension : public ros::Msg
   {
     public:
-      typedef const char* _label_type;
-      _label_type label;
-      typedef uint32_t _size_type;
-      _size_type size;
-      typedef uint32_t _stride_type;
-      _stride_type stride;
+      const char* label;
+      uint32_t size;
+      uint32_t stride;
 
     MultiArrayDimension():
       label(""),
@@ -28,11 +23,11 @@ namespace std_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_label = strlen(this->label);
-      varToArr(outbuffer + offset, length_label);
+      memcpy(outbuffer + offset, &length_label, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->label, length_label);
       offset += length_label;
@@ -49,11 +44,11 @@ namespace std_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_label;
-      arrToVar(length_label, (inbuffer + offset));
+      memcpy(&length_label, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_label; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -74,8 +69,8 @@ namespace std_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)std_msgs_MultiArrayDimension_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_msgs_MultiArrayDimension_md5);return md5_msg; };
+    const char * getType(){ return "std_msgs/MultiArrayDimension"; };
+    const char * getMD5(){ return "4cd0c83a8683deae40ecdac60e53bfa8"; };
 
   };
 

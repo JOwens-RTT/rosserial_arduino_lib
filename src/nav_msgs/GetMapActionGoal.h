@@ -12,17 +12,12 @@
 namespace nav_msgs
 {
 
-    static const char nav_msgs_GetMapActionGoal_type[] PROGMEM= "nav_msgs/GetMapActionGoal";
-    static const char nav_msgs_GetMapActionGoal_md5[] PROGMEM= "4b30be6cd12b9e72826df56b481f40e0";
   class GetMapActionGoal : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef actionlib_msgs::GoalID _goal_id_type;
-      _goal_id_type goal_id;
-      typedef nav_msgs::GetMapGoal _goal_type;
-      _goal_type goal;
+      std_msgs::Header header;
+      actionlib_msgs::GoalID goal_id;
+      nav_msgs::GetMapGoal goal;
 
     GetMapActionGoal():
       header(),
@@ -31,7 +26,7 @@ namespace nav_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -40,7 +35,7 @@ namespace nav_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -49,8 +44,8 @@ namespace nav_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)nav_msgs_GetMapActionGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nav_msgs_GetMapActionGoal_md5);return md5_msg; };
+    const char * getType(){ return "nav_msgs/GetMapActionGoal"; };
+    const char * getMD5(){ return "4b30be6cd12b9e72826df56b481f40e0"; };
 
   };
 

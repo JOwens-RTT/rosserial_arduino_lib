@@ -8,37 +8,34 @@
 namespace nodelet
 {
 
-static const char NODELETUNLOAD[] PROGMEM= "nodelet/NodeletUnload";
+static const char NODELETUNLOAD[] = "nodelet/NodeletUnload";
 
-    static const char nodelet_NodeletUnloadRequest_type[] PROGMEM= "nodelet/NodeletUnloadRequest";
-    static const char nodelet_NodeletUnloadRequest_md5[] PROGMEM= "c1f3d28f1b044c871e6eff2e9fc3c667";
   class NodeletUnloadRequest : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
+      const char* name;
 
     NodeletUnloadRequest():
       name("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -49,25 +46,22 @@ static const char NODELETUNLOAD[] PROGMEM= "nodelet/NodeletUnload";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)NODELETUNLOAD);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nodelet_NodeletUnloadRequest_md5);return md5_msg; };
+    const char * getType(){ return NODELETUNLOAD; };
+    const char * getMD5(){ return "c1f3d28f1b044c871e6eff2e9fc3c667"; };
 
   };
 
-    static const char nodelet_NodeletUnloadResponse_type[] PROGMEM= "nodelet/NodeletUnloadResponse";
-    static const char nodelet_NodeletUnloadResponse_md5[] PROGMEM= "358e233cde0c8a8bcfea4ce193f8fc15";
   class NodeletUnloadResponse : public ros::Msg
   {
     public:
-      typedef bool _success_type;
-      _success_type success;
+      bool success;
 
     NodeletUnloadResponse():
       success(0)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -80,7 +74,7 @@ static const char NODELETUNLOAD[] PROGMEM= "nodelet/NodeletUnload";
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -94,8 +88,8 @@ static const char NODELETUNLOAD[] PROGMEM= "nodelet/NodeletUnload";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)NODELETUNLOAD);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nodelet_NodeletUnloadResponse_md5);return md5_msg; };
+    const char * getType(){ return NODELETUNLOAD; };
+    const char * getMD5(){ return "358e233cde0c8a8bcfea4ce193f8fc15"; };
 
   };
 

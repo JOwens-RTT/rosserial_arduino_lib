@@ -8,10 +8,8 @@
 namespace tf2_msgs
 {
 
-static const char FRAMEGRAPH[] PROGMEM= "tf2_msgs/FrameGraph";
+static const char FRAMEGRAPH[] = "tf2_msgs/FrameGraph";
 
-    static const char tf2_msgs_FrameGraphRequest_type[] PROGMEM= "tf2_msgs/FrameGraphRequest";
-    static const char tf2_msgs_FrameGraphRequest_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class FrameGraphRequest : public ros::Msg
   {
     public:
@@ -20,52 +18,49 @@ static const char FRAMEGRAPH[] PROGMEM= "tf2_msgs/FrameGraph";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)FRAMEGRAPH);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf2_msgs_FrameGraphRequest_md5);return md5_msg; };
+    const char * getType(){ return FRAMEGRAPH; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 
-    static const char tf2_msgs_FrameGraphResponse_type[] PROGMEM= "tf2_msgs/FrameGraphResponse";
-    static const char tf2_msgs_FrameGraphResponse_md5[] PROGMEM= "437ea58e9463815a0d511c7326b686b0";
   class FrameGraphResponse : public ros::Msg
   {
     public:
-      typedef const char* _frame_yaml_type;
-      _frame_yaml_type frame_yaml;
+      const char* frame_yaml;
 
     FrameGraphResponse():
       frame_yaml("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_frame_yaml = strlen(this->frame_yaml);
-      varToArr(outbuffer + offset, length_frame_yaml);
+      memcpy(outbuffer + offset, &length_frame_yaml, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->frame_yaml, length_frame_yaml);
       offset += length_frame_yaml;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_frame_yaml;
-      arrToVar(length_frame_yaml, (inbuffer + offset));
+      memcpy(&length_frame_yaml, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_frame_yaml; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -76,8 +71,8 @@ static const char FRAMEGRAPH[] PROGMEM= "tf2_msgs/FrameGraph";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)FRAMEGRAPH);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf2_msgs_FrameGraphResponse_md5);return md5_msg; };
+    const char * getType(){ return FRAMEGRAPH; };
+    const char * getMD5(){ return "437ea58e9463815a0d511c7326b686b0"; };
 
   };
 

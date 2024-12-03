@@ -12,19 +12,13 @@
 namespace nav_msgs
 {
 
-    static const char nav_msgs_Odometry_type[] PROGMEM= "nav_msgs/Odometry";
-    static const char nav_msgs_Odometry_md5[] PROGMEM= "cd5e73d190d741a2f92e81eda573aca7";
   class Odometry : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef const char* _child_frame_id_type;
-      _child_frame_id_type child_frame_id;
-      typedef geometry_msgs::PoseWithCovariance _pose_type;
-      _pose_type pose;
-      typedef geometry_msgs::TwistWithCovariance _twist_type;
-      _twist_type twist;
+      std_msgs::Header header;
+      const char* child_frame_id;
+      geometry_msgs::PoseWithCovariance pose;
+      geometry_msgs::TwistWithCovariance twist;
 
     Odometry():
       header(),
@@ -34,12 +28,12 @@ namespace nav_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
       uint32_t length_child_frame_id = strlen(this->child_frame_id);
-      varToArr(outbuffer + offset, length_child_frame_id);
+      memcpy(outbuffer + offset, &length_child_frame_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->child_frame_id, length_child_frame_id);
       offset += length_child_frame_id;
@@ -48,12 +42,12 @@ namespace nav_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
       uint32_t length_child_frame_id;
-      arrToVar(length_child_frame_id, (inbuffer + offset));
+      memcpy(&length_child_frame_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_child_frame_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -66,8 +60,8 @@ namespace nav_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)nav_msgs_Odometry_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)nav_msgs_Odometry_md5);return md5_msg; };
+    const char * getType(){ return "nav_msgs/Odometry"; };
+    const char * getMD5(){ return "cd5e73d190d741a2f92e81eda573aca7"; };
 
   };
 

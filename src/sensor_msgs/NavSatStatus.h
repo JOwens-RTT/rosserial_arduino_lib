@@ -9,15 +9,11 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_NavSatStatus_type[] PROGMEM= "sensor_msgs/NavSatStatus";
-    static const char sensor_msgs_NavSatStatus_md5[] PROGMEM= "331cdbddfa4bc96ffc3b9ad98900a54c";
   class NavSatStatus : public ros::Msg
   {
     public:
-      typedef int8_t _status_type;
-      _status_type status;
-      typedef uint16_t _service_type;
-      _service_type service;
+      int8_t status;
+      uint16_t service;
       enum { STATUS_NO_FIX =   -1         };
       enum { STATUS_FIX =       0         };
       enum { STATUS_SBAS_FIX =  1         };
@@ -33,7 +29,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -49,7 +45,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -66,8 +62,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_NavSatStatus_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_NavSatStatus_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/NavSatStatus"; };
+    const char * getMD5(){ return "331cdbddfa4bc96ffc3b9ad98900a54c"; };
 
   };
 

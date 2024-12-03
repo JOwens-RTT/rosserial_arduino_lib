@@ -8,37 +8,34 @@
 namespace topic_tools
 {
 
-static const char MUXADD[] PROGMEM= "topic_tools/MuxAdd";
+static const char MUXADD[] = "topic_tools/MuxAdd";
 
-    static const char topic_tools_MuxAddRequest_type[] PROGMEM= "topic_tools/MuxAddRequest";
-    static const char topic_tools_MuxAddRequest_md5[] PROGMEM= "d8f94bae31b356b24d0427f80426d0c3";
   class MuxAddRequest : public ros::Msg
   {
     public:
-      typedef const char* _topic_type;
-      _topic_type topic;
+      const char* topic;
 
     MuxAddRequest():
       topic("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_topic = strlen(this->topic);
-      varToArr(outbuffer + offset, length_topic);
+      memcpy(outbuffer + offset, &length_topic, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->topic, length_topic);
       offset += length_topic;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_topic;
-      arrToVar(length_topic, (inbuffer + offset));
+      memcpy(&length_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_topic; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -49,13 +46,11 @@ static const char MUXADD[] PROGMEM= "topic_tools/MuxAdd";
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)MUXADD);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_MuxAddRequest_md5);return md5_msg; };
+    const char * getType(){ return MUXADD; };
+    const char * getMD5(){ return "d8f94bae31b356b24d0427f80426d0c3"; };
 
   };
 
-    static const char topic_tools_MuxAddResponse_type[] PROGMEM= "topic_tools/MuxAddResponse";
-    static const char topic_tools_MuxAddResponse_md5[] PROGMEM= "d41d8cd98f00b204e9800998ecf8427e";
   class MuxAddResponse : public ros::Msg
   {
     public:
@@ -64,20 +59,20 @@ static const char MUXADD[] PROGMEM= "topic_tools/MuxAdd";
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)MUXADD);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)topic_tools_MuxAddResponse_md5);return md5_msg; };
+    const char * getType(){ return MUXADD; };
+    const char * getMD5(){ return "d41d8cd98f00b204e9800998ecf8427e"; };
 
   };
 

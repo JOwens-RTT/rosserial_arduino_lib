@@ -9,15 +9,11 @@
 namespace tf2_msgs
 {
 
-    static const char tf2_msgs_TF2Error_type[] PROGMEM= "tf2_msgs/TF2Error";
-    static const char tf2_msgs_TF2Error_md5[] PROGMEM= "bc6848fd6fd750c92e38575618a4917d";
   class TF2Error : public ros::Msg
   {
     public:
-      typedef uint8_t _error_type;
-      _error_type error;
-      typedef const char* _error_string_type;
-      _error_string_type error_string;
+      uint8_t error;
+      const char* error_string;
       enum { NO_ERROR =  0 };
       enum { LOOKUP_ERROR =  1 };
       enum { CONNECTIVITY_ERROR =  2 };
@@ -32,26 +28,26 @@ namespace tf2_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->error >> (8 * 0)) & 0xFF;
       offset += sizeof(this->error);
       uint32_t length_error_string = strlen(this->error_string);
-      varToArr(outbuffer + offset, length_error_string);
+      memcpy(outbuffer + offset, &length_error_string, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->error_string, length_error_string);
       offset += length_error_string;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->error =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->error);
       uint32_t length_error_string;
-      arrToVar(length_error_string, (inbuffer + offset));
+      memcpy(&length_error_string, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_error_string; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -62,8 +58,8 @@ namespace tf2_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)tf2_msgs_TF2Error_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf2_msgs_TF2Error_md5);return md5_msg; };
+    const char * getType(){ return "tf2_msgs/TF2Error"; };
+    const char * getMD5(){ return "bc6848fd6fd750c92e38575618a4917d"; };
 
   };
 

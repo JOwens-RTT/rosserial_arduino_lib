@@ -10,23 +10,15 @@
 namespace bond
 {
 
-    static const char bond_Status_type[] PROGMEM= "bond/Status";
-    static const char bond_Status_md5[] PROGMEM= "eacc84bf5d65b6777d4c50f463dfb9c8";
   class Status : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef const char* _id_type;
-      _id_type id;
-      typedef const char* _instance_id_type;
-      _instance_id_type instance_id;
-      typedef bool _active_type;
-      _active_type active;
-      typedef float _heartbeat_timeout_type;
-      _heartbeat_timeout_type heartbeat_timeout;
-      typedef float _heartbeat_period_type;
-      _heartbeat_period_type heartbeat_period;
+      std_msgs::Header header;
+      const char* id;
+      const char* instance_id;
+      bool active;
+      float heartbeat_timeout;
+      float heartbeat_period;
 
     Status():
       header(),
@@ -38,17 +30,17 @@ namespace bond
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
       uint32_t length_id = strlen(this->id);
-      varToArr(outbuffer + offset, length_id);
+      memcpy(outbuffer + offset, &length_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->id, length_id);
       offset += length_id;
       uint32_t length_instance_id = strlen(this->instance_id);
-      varToArr(outbuffer + offset, length_instance_id);
+      memcpy(outbuffer + offset, &length_instance_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->instance_id, length_instance_id);
       offset += length_instance_id;
@@ -82,12 +74,12 @@ namespace bond
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
       uint32_t length_id;
-      arrToVar(length_id, (inbuffer + offset));
+      memcpy(&length_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -96,7 +88,7 @@ namespace bond
       this->id = (char *)(inbuffer + offset-1);
       offset += length_id;
       uint32_t length_instance_id;
-      arrToVar(length_instance_id, (inbuffer + offset));
+      memcpy(&length_instance_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_instance_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -137,8 +129,8 @@ namespace bond
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)bond_Status_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)bond_Status_md5);return md5_msg; };
+    const char * getType(){ return "bond/Status"; };
+    const char * getMD5(){ return "eacc84bf5d65b6777d4c50f463dfb9c8"; };
 
   };
 

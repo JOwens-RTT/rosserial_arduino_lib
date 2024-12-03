@@ -9,20 +9,17 @@
 namespace actionlib
 {
 
-    static const char actionlib_TestGoal_type[] PROGMEM= "actionlib/TestGoal";
-    static const char actionlib_TestGoal_md5[] PROGMEM= "18df0149936b7aa95588e3862476ebde";
   class TestGoal : public ros::Msg
   {
     public:
-      typedef int32_t _goal_type;
-      _goal_type goal;
+      int32_t goal;
 
     TestGoal():
       goal(0)
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
@@ -38,7 +35,7 @@ namespace actionlib
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       union {
@@ -55,8 +52,8 @@ namespace actionlib
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_TestGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_TestGoal_md5);return md5_msg; };
+    const char * getType(){ return "actionlib/TestGoal"; };
+    const char * getMD5(){ return "18df0149936b7aa95588e3862476ebde"; };
 
   };
 

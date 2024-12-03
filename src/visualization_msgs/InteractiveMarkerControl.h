@@ -11,29 +11,19 @@
 namespace visualization_msgs
 {
 
-    static const char visualization_msgs_InteractiveMarkerControl_type[] PROGMEM= "visualization_msgs/InteractiveMarkerControl";
-    static const char visualization_msgs_InteractiveMarkerControl_md5[] PROGMEM= "b3c81e785788195d1840b86c28da1aac";
   class InteractiveMarkerControl : public ros::Msg
   {
     public:
-      typedef const char* _name_type;
-      _name_type name;
-      typedef geometry_msgs::Quaternion _orientation_type;
-      _orientation_type orientation;
-      typedef uint8_t _orientation_mode_type;
-      _orientation_mode_type orientation_mode;
-      typedef uint8_t _interaction_mode_type;
-      _interaction_mode_type interaction_mode;
-      typedef bool _always_visible_type;
-      _always_visible_type always_visible;
-      uint32_t markers_length;
-      typedef visualization_msgs::Marker _markers_type;
-      _markers_type st_markers;
-      _markers_type * markers;
-      typedef bool _independent_marker_orientation_type;
-      _independent_marker_orientation_type independent_marker_orientation;
-      typedef const char* _description_type;
-      _description_type description;
+      const char* name;
+      geometry_msgs::Quaternion orientation;
+      uint8_t orientation_mode;
+      uint8_t interaction_mode;
+      bool always_visible;
+      uint8_t markers_length;
+      visualization_msgs::Marker st_markers;
+      visualization_msgs::Marker * markers;
+      bool independent_marker_orientation;
+      const char* description;
       enum { INHERIT =  0 };
       enum { FIXED =  1 };
       enum { VIEW_FACING =  2 };
@@ -54,17 +44,17 @@ namespace visualization_msgs
       orientation_mode(0),
       interaction_mode(0),
       always_visible(0),
-      markers_length(0), st_markers(), markers(nullptr),
+      markers_length(0), markers(NULL),
       independent_marker_orientation(0),
       description("")
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       uint32_t length_name = strlen(this->name);
-      varToArr(outbuffer + offset, length_name);
+      memcpy(outbuffer + offset, &length_name, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->name, length_name);
       offset += length_name;
@@ -80,12 +70,11 @@ namespace visualization_msgs
       u_always_visible.real = this->always_visible;
       *(outbuffer + offset + 0) = (u_always_visible.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->always_visible);
-      *(outbuffer + offset + 0) = (this->markers_length >> (8 * 0)) & 0xFF;
-      *(outbuffer + offset + 1) = (this->markers_length >> (8 * 1)) & 0xFF;
-      *(outbuffer + offset + 2) = (this->markers_length >> (8 * 2)) & 0xFF;
-      *(outbuffer + offset + 3) = (this->markers_length >> (8 * 3)) & 0xFF;
-      offset += sizeof(this->markers_length);
-      for( uint32_t i = 0; i < markers_length; i++){
+      *(outbuffer + offset++) = markers_length;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      *(outbuffer + offset++) = 0;
+      for( uint8_t i = 0; i < markers_length; i++){
       offset += this->markers[i].serialize(outbuffer + offset);
       }
       union {
@@ -96,18 +85,18 @@ namespace visualization_msgs
       *(outbuffer + offset + 0) = (u_independent_marker_orientation.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->independent_marker_orientation);
       uint32_t length_description = strlen(this->description);
-      varToArr(outbuffer + offset, length_description);
+      memcpy(outbuffer + offset, &length_description, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->description, length_description);
       offset += length_description;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       uint32_t length_name;
-      arrToVar(length_name, (inbuffer + offset));
+      memcpy(&length_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_name; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -128,15 +117,12 @@ namespace visualization_msgs
       u_always_visible.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->always_visible = u_always_visible.real;
       offset += sizeof(this->always_visible);
-      uint32_t markers_lengthT = ((uint32_t) (*(inbuffer + offset))); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 1))) << (8 * 1); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2); 
-      markers_lengthT |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3); 
-      offset += sizeof(this->markers_length);
+      uint8_t markers_lengthT = *(inbuffer + offset++);
       if(markers_lengthT > markers_length)
         this->markers = (visualization_msgs::Marker*)realloc(this->markers, markers_lengthT * sizeof(visualization_msgs::Marker));
+      offset += 3;
       markers_length = markers_lengthT;
-      for( uint32_t i = 0; i < markers_length; i++){
+      for( uint8_t i = 0; i < markers_length; i++){
       offset += this->st_markers.deserialize(inbuffer + offset);
         memcpy( &(this->markers[i]), &(this->st_markers), sizeof(visualization_msgs::Marker));
       }
@@ -149,7 +135,7 @@ namespace visualization_msgs
       this->independent_marker_orientation = u_independent_marker_orientation.real;
       offset += sizeof(this->independent_marker_orientation);
       uint32_t length_description;
-      arrToVar(length_description, (inbuffer + offset));
+      memcpy(&length_description, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_description; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -160,8 +146,8 @@ namespace visualization_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)visualization_msgs_InteractiveMarkerControl_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)visualization_msgs_InteractiveMarkerControl_md5);return md5_msg; };
+    const char * getType(){ return "visualization_msgs/InteractiveMarkerControl"; };
+    const char * getMD5(){ return "e3a939c98cdd4f709d8e1dec2a9c3f37"; };
 
   };
 

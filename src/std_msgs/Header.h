@@ -10,17 +10,12 @@
 namespace std_msgs
 {
 
-    static const char std_msgs_Header_type[] PROGMEM= "std_msgs/Header";
-    static const char std_msgs_Header_md5[] PROGMEM= "2176decaecbce78abc3b96ef049fabed";
   class Header : public ros::Msg
   {
     public:
-      typedef uint32_t _seq_type;
-      _seq_type seq;
-      typedef ros::Time _stamp_type;
-      _stamp_type stamp;
-      typedef const char* _frame_id_type;
-      _frame_id_type frame_id;
+      uint32_t seq;
+      ros::Time stamp;
+      const char* frame_id;
 
     Header():
       seq(0),
@@ -29,7 +24,7 @@ namespace std_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       *(outbuffer + offset + 0) = (this->seq >> (8 * 0)) & 0xFF;
@@ -48,14 +43,14 @@ namespace std_msgs
       *(outbuffer + offset + 3) = (this->stamp.nsec >> (8 * 3)) & 0xFF;
       offset += sizeof(this->stamp.nsec);
       uint32_t length_frame_id = strlen(this->frame_id);
-      varToArr(outbuffer + offset, length_frame_id);
+      memcpy(outbuffer + offset, &length_frame_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->frame_id, length_frame_id);
       offset += length_frame_id;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       this->seq =  ((uint32_t) (*(inbuffer + offset)));
@@ -74,7 +69,7 @@ namespace std_msgs
       this->stamp.nsec |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->stamp.nsec);
       uint32_t length_frame_id;
-      arrToVar(length_frame_id, (inbuffer + offset));
+      memcpy(&length_frame_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_frame_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -85,8 +80,8 @@ namespace std_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)std_msgs_Header_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)std_msgs_Header_md5);return md5_msg; };
+    const char * getType(){ return "std_msgs/Header"; };
+    const char * getMD5(){ return "2176decaecbce78abc3b96ef049fabed"; };
 
   };
 

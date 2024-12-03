@@ -5,28 +5,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ros/msg.h"
-#include "ArduinoIncludes.h"
 
 namespace rosserial_arduino
 {
 
-    static const char rosserial_arduino_Adc_type[] PROGMEM= "rosserial_arduino/Adc";
-    static const char rosserial_arduino_Adc_md5[] PROGMEM= "6d7853a614e2e821319068311f2af25b";
   class Adc : public ros::Msg
   {
     public:
-      typedef uint16_t _adc0_type;
-      _adc0_type adc0;
-      typedef uint16_t _adc1_type;
-      _adc1_type adc1;
-      typedef uint16_t _adc2_type;
-      _adc2_type adc2;
-      typedef uint16_t _adc3_type;
-      _adc3_type adc3;
-      typedef uint16_t _adc4_type;
-      _adc4_type adc4;
-      typedef uint16_t _adc5_type;
-      _adc5_type adc5;
+      uint16_t adc0;
+      uint16_t adc1;
+      uint16_t adc2;
+      uint16_t adc3;
+      uint16_t adc4;
+      uint16_t adc5;
 
     Adc():
       adc0(0),
@@ -86,16 +77,8 @@ namespace rosserial_arduino
      return offset;
     }
 
-    #ifdef ESP8266
-        const char * getType() { return  ("rosserial_arduino/Adc");};
-    #else
-        virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)rosserial_arduino_Adc_type);return type_msg; };
-    #endif
-    #ifdef ESP8266
-        const char * getMD5() { return  ("6d7853a614e2e821319068311f2af25b");};
-    #else
-        virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)rosserial_arduino_Adc_md5);return md5_msg; };
-    #endif
+    const char * getType(){ return "rosserial_arduino/Adc"; };
+    const char * getMD5(){ return "6d7853a614e2e821319068311f2af25b"; };
 
   };
 

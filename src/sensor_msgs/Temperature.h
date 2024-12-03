@@ -10,17 +10,12 @@
 namespace sensor_msgs
 {
 
-    static const char sensor_msgs_Temperature_type[] PROGMEM= "sensor_msgs/Temperature";
-    static const char sensor_msgs_Temperature_md5[] PROGMEM= "ff71b307acdbe7c871a5a6d7ed359100";
   class Temperature : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef float _temperature_type;
-      _temperature_type temperature;
-      typedef float _variance_type;
-      _variance_type variance;
+      std_msgs::Header header;
+      float temperature;
+      float variance;
 
     Temperature():
       header(),
@@ -29,7 +24,7 @@ namespace sensor_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -38,7 +33,7 @@ namespace sensor_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -47,8 +42,8 @@ namespace sensor_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)sensor_msgs_Temperature_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)sensor_msgs_Temperature_md5);return md5_msg; };
+    const char * getType(){ return "sensor_msgs/Temperature"; };
+    const char * getMD5(){ return "ff71b307acdbe7c871a5a6d7ed359100"; };
 
   };
 

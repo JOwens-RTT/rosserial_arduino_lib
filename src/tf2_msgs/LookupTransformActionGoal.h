@@ -12,17 +12,12 @@
 namespace tf2_msgs
 {
 
-    static const char tf2_msgs_LookupTransformActionGoal_type[] PROGMEM= "tf2_msgs/LookupTransformActionGoal";
-    static const char tf2_msgs_LookupTransformActionGoal_md5[] PROGMEM= "f2e7bcdb75c847978d0351a13e699da5";
   class LookupTransformActionGoal : public ros::Msg
   {
     public:
-      typedef std_msgs::Header _header_type;
-      _header_type header;
-      typedef actionlib_msgs::GoalID _goal_id_type;
-      _goal_id_type goal_id;
-      typedef tf2_msgs::LookupTransformGoal _goal_type;
-      _goal_type goal;
+      std_msgs::Header header;
+      actionlib_msgs::GoalID goal_id;
+      tf2_msgs::LookupTransformGoal goal;
 
     LookupTransformActionGoal():
       header(),
@@ -31,7 +26,7 @@ namespace tf2_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->header.serialize(outbuffer + offset);
@@ -40,7 +35,7 @@ namespace tf2_msgs
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->header.deserialize(inbuffer + offset);
@@ -49,8 +44,8 @@ namespace tf2_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)tf2_msgs_LookupTransformActionGoal_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)tf2_msgs_LookupTransformActionGoal_md5);return md5_msg; };
+    const char * getType(){ return "tf2_msgs/LookupTransformActionGoal"; };
+    const char * getMD5(){ return "f2e7bcdb75c847978d0351a13e699da5"; };
 
   };
 

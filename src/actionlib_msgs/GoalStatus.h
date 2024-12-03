@@ -10,17 +10,12 @@
 namespace actionlib_msgs
 {
 
-    static const char actionlib_msgs_GoalStatus_type[] PROGMEM= "actionlib_msgs/GoalStatus";
-    static const char actionlib_msgs_GoalStatus_md5[] PROGMEM= "d388f9b87b3c471f784434d671988d4a";
   class GoalStatus : public ros::Msg
   {
     public:
-      typedef actionlib_msgs::GoalID _goal_id_type;
-      _goal_id_type goal_id;
-      typedef uint8_t _status_type;
-      _status_type status;
-      typedef const char* _text_type;
-      _text_type text;
+      actionlib_msgs::GoalID goal_id;
+      uint8_t status;
+      const char* text;
       enum { PENDING =  0    };
       enum { ACTIVE =  1    };
       enum { PREEMPTED =  2    };
@@ -39,28 +34,28 @@ namespace actionlib_msgs
     {
     }
 
-    virtual int serialize(unsigned char *outbuffer) const override
+    virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       offset += this->goal_id.serialize(outbuffer + offset);
       *(outbuffer + offset + 0) = (this->status >> (8 * 0)) & 0xFF;
       offset += sizeof(this->status);
       uint32_t length_text = strlen(this->text);
-      varToArr(outbuffer + offset, length_text);
+      memcpy(outbuffer + offset, &length_text, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->text, length_text);
       offset += length_text;
       return offset;
     }
 
-    virtual int deserialize(unsigned char *inbuffer) override
+    virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
       offset += this->goal_id.deserialize(inbuffer + offset);
       this->status =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->status);
       uint32_t length_text;
-      arrToVar(length_text, (inbuffer + offset));
+      memcpy(&length_text, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_text; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -71,8 +66,8 @@ namespace actionlib_msgs
      return offset;
     }
 
-    virtual const char * getType(const char * type_msg) override { strcpy_P(type_msg, (char *)actionlib_msgs_GoalStatus_type);return type_msg; };
-    virtual const char * getMD5(const char * md5_msg) override { strcpy_P(md5_msg, (char *)actionlib_msgs_GoalStatus_md5);return md5_msg; };
+    const char * getType(){ return "actionlib_msgs/GoalStatus"; };
+    const char * getMD5(){ return "d388f9b87b3c471f784434d671988d4a"; };
 
   };
 
